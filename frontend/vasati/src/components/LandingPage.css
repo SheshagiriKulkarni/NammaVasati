@@ -1,0 +1,342 @@
+.container {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+}
+
+.banner {
+  background: url("../assets/Banner.jpg");
+  height: 50vh;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-holder p {
+  color: white;
+  font-size: 2.5em;
+  font-weight: 400;
+  margin: 20px 5px;
+}
+
+.search-input {
+  width: 100%;
+  height: 5vh;
+  border-radius: 4px;
+  border: none;
+  background-color: white;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+.search-input input {
+  width: 80%;
+  height: 4vh;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 4px;
+  margin: 2px;
+  border: none;
+  overflow-x: "auto";
+  font-size: medium;
+}
+
+.search-input input:focus {
+  border: none;
+  outline: none;
+}
+
+.sea-btns {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 20%;
+}
+
+.sea-btns button {
+  cursor: pointer;
+}
+
+.sea-btns .locationicon {
+  background: url("https://cdn-icons-png.freepik.com/512/6615/6615039.png");
+  height: 25px;
+  width: 25px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding: 0;
+  border: none;
+}
+
+.sea-btns .searchicon {
+  background: url("https://www.iconpacks.net/icons/2/free-search-icon-2911-thumb.png");
+  height: 25px;
+  width: 25px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding: 0;
+  border: none;
+}
+
+.real-content {
+  margin: 5vh 3vw;
+  height: max-content;
+  box-sizing: border-box;
+}
+
+.real-content .my-ad {
+  margin: 0 1vw;
+  border-radius: 5px;
+  height: max-content;
+}
+
+.real-content .my-ad .my-ad-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.real-content .my-ad .ad-card {
+  border-radius: 6px;
+  display: flex;
+  height: 175px;
+  margin-top: 5vh;
+  width: 60%;
+  border: 1px solid rgb(174, 173, 173);
+  box-sizing: border-box;
+}
+
+.real-content .my-ad .ban-img {
+  border-radius: 6px;
+  display: flex;
+  height: 175px;
+  margin-top: 5vh;
+  width: 35%;
+  background: url("https://shrivra.com/images/banner-p.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.real-content .my-ad .ad-card .ad-img {
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("https://cdn1.iconfinder.com/data/icons/servers-database-8/60/add__database__storage__plus__server-512.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.real-content .my-ad .ad-card .adv-content {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.real-content .my-ad .ad-card .adv-content .in-div {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.real-content .my-ad .ad-card .adv-content .in-div input {
+  border: 1px solid gray;
+  border-radius: 4px;
+  height: 3.5vh;
+  overflow-x: auto;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.real-content .my-ad .ad-card .adv-content .in-div input:focus {
+  outline: none;
+  border: 1px solid rgb(124, 194, 164);
+}
+
+.real-content .my-ad .ad-card .adv-content .in-div button {
+  width: 20%;
+  height: 4vh;
+  border-radius: 4px;
+  margin: auto;
+  border: none;
+  font-weight: 400;
+  color: white;
+  font-size: large;
+  background-color: rgb(236, 166, 76);
+  cursor: pointer;
+}
+
+.real-content .my-ad .ad-card .adv-content .in-div button:hover {
+  background-color: rgb(239, 154, 42);
+}
+
+.featured-pg {
+  height: max-content;
+  margin: 3vh 1vw;
+  box-sizing: border-box;
+}
+
+.featured-pg .pg-name {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: large;
+}
+
+.featured-pg .pg-name button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3vw;
+  cursor: pointer;
+  background-color: white;
+  border: 2px solid gray;
+  border-radius: 3px;
+  transition: all 0.3s ease-in-out;
+}
+
+.featured-pg .pg-name button:hover {
+  font-weight: bold;
+}
+
+.pg-list {
+  display: flex;
+  overflow-x: auto; /* Ensures scrolling works */
+  gap: 10px;
+  margin-top: 5vh;
+  white-space: nowrap; /* Prevents wrapping of items */
+  scroll-behavior: smooth; /* Enables smooth scrolling */
+  box-sizing: border-box;
+}
+
+.card {
+  flex: 0 0 300px; /* Fixes width and prevents shrinking */
+  width: 300px;
+  border: 2px solid #ccc;
+  overflow: hidden;
+  height: 450px;
+  padding: 6px;
+  box-sizing: border-box;
+  cursor: pointer;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 10;
+  margin-top: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.card:hover {
+  transform: scale(1.01); /* Slightly enlarges the card */
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3); /* Adds depth */
+}
+
+.image-slider {
+  display: flex;
+  overflow-x: scroll;
+  max-width: 100%;
+  height: 200px; /* You can adjust this based on your image aspect ratio */
+}
+
+.pg-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  flex-shrink: 0; /* Prevent images from shrinking */
+}
+
+.pg-details {
+  padding: 15px;
+  background-color: #fff;
+  position: relative;
+}
+
+.pg-details button {
+  width: 120px;
+  height: 4vh;
+  border-radius: 4px;
+  background-color: rgb(94, 142, 197);
+  color: white;
+  font-size: medium;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.pg-details .name-and-price {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pg-details button:hover {
+  background-color: rgb(42, 130, 231);
+}
+
+.pg-details .occupancy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(231, 226, 226);
+  color: #6f6d6d;
+  width: 90px;
+  height: 25px;
+  border-radius: 12.5px;
+}
+
+.pg-details .occupancy-icon {
+  height: 25px;
+  margin-right: 5px;
+}
+
+.pg-details .btns-in-card {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-in-map {
+  display: flex;
+  height: 27vh;
+  margin: 0 1vw;
+  border: none;
+  width: calc(100% - 2vw);
+  margin-top: 10vh;
+  margin-bottom: 4vh;
+}
+
+.search-in-map .description {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-in-map .description button {
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px;
+  font-weight: 400;
+  cursor: pointer;
+  width: 9vw;
+  margin-top: 6vh;
+}
+
+.search-in-map .loc-img {
+  background: url("../assets/searching.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 30%;
+}
