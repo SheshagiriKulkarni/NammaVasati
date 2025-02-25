@@ -1,0 +1,454 @@
+.filters-row {
+  margin: 50px;
+  height: 8vh;
+  border: 1px solid gray;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  border: none;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.filters-row .search-input {
+  height: 5vh;
+  width: 30%;
+  border-radius: 5px;
+  box-sizing: border-box;
+  border: 1px solid gray;
+}
+
+.filters-row button {
+  height: 5vh;
+  width: 6%;
+  border-radius: 5px;
+  box-sizing: border-box;
+  border: 1px solid rgb(96, 195, 173);
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  cursor: pointer;
+}
+
+.filters-row button img {
+  height: 20px;
+  width: 20px;
+  background-color: transparent;
+  transition: transform 0.3s ease-in-out; /* Smooth transition */
+}
+
+.filters-row .filter > button {
+  height: 5vh;
+  width: 100%;
+  border-radius: 5px;
+  box-sizing: border-box;
+  border: 1px solid rgb(96, 195, 173);
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  cursor: pointer;
+}
+
+/* Rotate the image when the button is clicked */
+.filters-row img.rotated {
+  transform: rotate(180deg);
+}
+.filters-row h2 {
+  color: rgb(104, 102, 102);
+  font-weight: 400;
+}
+
+.filters-row .mofilters {
+  height: 5vh;
+  width: 8%;
+}
+
+.sel-filters {
+  margin: 5px 50px;
+  border: none;
+  max-height: 15vh;
+}
+
+.selected-filters {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.filter-tag {
+  background: #f1f1f1;
+  padding: 6px 10px;
+  border-radius: 15px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.rm-btn {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.filter {
+  position: relative;
+  width: 6%;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 120%;
+  left: 0;
+  width: 100%;
+  background: white;
+  border: 1px solid gray;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.dropdown {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
+
+.dropdown input,
+.dropdown select {
+  padding: 5px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.dropdown button {
+  background-color: #28a745;
+  color: white;
+  padding: 5px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.dropdown button:hover {
+  background-color: #218838;
+}
+
+.filter .gender-dropdown-menu {
+  width: 250px;
+  z-index: 1000;
+  border: 1px solid rgb(154, 153, 153);
+  left: -80px;
+}
+
+.filter .budget-dropdown-menu {
+  width: 200px;
+  z-index: 1000;
+  border: 1px solid rgb(154, 153, 153);
+  left: -100px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.filter .locality-dropdown-menu {
+  width: 200px;
+  z-index: 1000;
+  border: 1px solid rgb(154, 153, 153);
+  left: -60px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.filter .locality-dropdown-menu input {
+  width: 80%;
+  margin: 4px auto;
+  border-radius: 4px;
+  border: 1px solid rgb(171, 171, 171);
+  height: 3vh;
+}
+
+.filter .locality-dropdown-menu input:focus {
+  outline: none;
+}
+
+.filter .locality-dropdown-menu .save-btn {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 10px;
+  gap: 20px;
+  align-items: center;
+}
+
+.filter .locality-dropdown-menu .save-btn button {
+  width: 30%;
+  height: 25px;
+  border-radius: 5px;
+  background-color: rgb(96, 195, 173);
+  color: white;
+  font-size: medium;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.filter .gender-dropdown-menu .btns {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.filter .gender-dropdown-menu button {
+  width: 30%;
+  height: 30px;
+  border-radius: 15px;
+}
+
+.filter .budget-dropdown-menu button {
+  width: 90%;
+  height: 30px;
+  border-radius: 15px;
+}
+
+.filter .gender-dropdown-menu .save-btn {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+  gap: 20px;
+  align-items: center;
+}
+
+.filter .gender-dropdown-menu .save-btn button {
+  width: 30%;
+  height: 30px;
+  border-radius: 5px;
+  background-color: rgb(96, 195, 173);
+  color: white;
+  font-size: medium;
+  margin-right: 10px;
+}
+
+.gender-dropdown-menu button.selected {
+  background-color: rgb(221, 242, 245);
+  border: rgb(232, 232, 232);
+}
+
+.budget-dropdown-menu button.selected {
+  background-color: rgb(221, 242, 245);
+  border: rgb(232, 232, 232);
+}
+
+.filtered-pgs {
+  margin: 50px;
+  box-sizing: border-box;
+}
+
+.heading {
+  font-weight: 500;
+  font-size: larger;
+  margin-left: 20px;
+}
+
+.vertical-line {
+  height: 4.5vh; /* Adjust height as needed */
+  border-left: 2px solid rgb(103, 102, 102); /* Line thickness and color */
+}
+
+.pg-card {
+  width: 250px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.pg-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.filtered-pgs .result-box {
+  width: 100%;
+  display: flex;
+  margin-top: 5vh;
+  height: auto; /* Set a fixed height for the entire container */
+  overflow: hidden; /* Prevents whole page scrolling */
+  justify-content: space-between;
+  gap: 20px;
+  box-sizing: border-box;
+  padding: 10px;
+  max-height: 80vh;
+}
+
+.filtered-pgs .content-real {
+  width: 67%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex-grow: 0; /* Prevents flex-grow from affecting width */
+  flex-shrink: 0; /* Prevents shrinking */
+  overflow-y: auto; /* Enables scrolling only for ads */
+  max-height: 100%;
+  padding: 10px;
+}
+
+.filtered-pgs .content-real::-webkit-scrollbar {
+  display: none;
+}
+
+.filtered-pgs .searched-pg {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 10px;
+  min-height: 40vh;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.filtered-pgs .map-container {
+  width: 30%;
+  height: auto; /* Takes full height of the parent */
+  position: sticky;
+  top: 0; /* Keeps it fixed when scrolling */
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 10px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+.filtered-pgs .map-container .leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.filtered-pgs .image-content {
+  position: relative; /* Adjust as needed */
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  padding: 0;
+  width: 40%;
+  height: 100%;
+  border-radius: 0;
+  border: none;
+}
+
+.ad-image {
+  object-fit: cover;
+  border-radius: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+/* Navigation Buttons */
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(177, 174, 174, 0.6);
+  padding: 0;
+  color: black;
+  border: none;
+  cursor: pointer;
+  height: 40px;
+  width: 40px;
+  font-size: 35px;
+  border-radius: 50%;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-button:hover {
+  background-color: rgba(235, 230, 230, 0.8);
+}
+
+.prev-button {
+  left: 15px;
+}
+
+.next-button {
+  right: 15px;
+}
+
+.filtered-pgs .searched-pg .about-ad {
+  padding: 20px;
+  width: 60%;
+}
+
+.filtered-pgs .searched-pg .about-ad h3 {
+  margin: 2px;
+}
+
+.filtered-pgs .searched-pg .about-ad .rowone {
+  display: flex;
+  justify-content: space-between;
+  height: 12vh;
+  margin-bottom: 3vh;
+}
+
+.about-ad .occupancy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(231, 226, 226);
+  color: #6f6d6d;
+  width: 90px;
+  height: 25px;
+  border-radius: 12.5px;
+}
+
+.about-ad .occupancy .occupancy-icon {
+  height: 25px;
+  margin-right: 5px;
+}
+
+.filtered-pgs .searched-pg .about-ad .rowthree {
+  margin-top: 3vh;
+  display: flex;
+  justify-content: space-between;
+  height: 10vh;
+  align-items: center;
+  font-size: large;
+}
+
+.filtered-pgs .searched-pg .about-ad .rowthree button {
+  height: 6vh;
+  border-radius: 5px;
+  border: none;
+  width: 10vw;
+  font-size: medium;
+}
+
+.filtered-pgs .searched-pg .about-ad .rowthree .vi-btn {
+  background-color: rgb(96, 195, 173);
+  color: white;
+}
+
+.filtered-pgs .searched-pg .about-ad .rowthree .ca-btn {
+  color: rgb(96, 195, 173);
+  background-color: white;
+  border: 1px solid rgb(96, 195, 173);
+}

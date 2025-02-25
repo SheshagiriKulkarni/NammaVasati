@@ -1,0 +1,169 @@
+.ad-content {
+  display: flex;
+  height: 70vh;
+  margin: 5px;
+  align-items: center;
+  justify-content: space-around;
+  box-sizing: border-box;
+}
+
+.image-content {
+  position: relative; /* Adjust as needed */
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.image-gallery {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+}
+
+.ad-image {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Navigation Buttons */
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(177, 174, 174, 0.6);
+  padding: 0;
+  color: black;
+  border: none;
+  cursor: pointer;
+  height: 40px;
+  width: 40px;
+  font-size: 35px;
+  border-radius: 50%;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-button:hover {
+  background-color: rgba(235, 230, 230, 0.8);
+}
+
+.prev-button {
+  left: 15px;
+}
+
+.next-button {
+  right: 15px;
+}
+
+.file-input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder {
+  font-size: 30px;
+  color: gray;
+}
+
+.remove-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.ad-content .real-content {
+  display: flex;
+  width: 55%;
+  height: 70%;
+  border: 1px solid rgb(224, 158, 78);
+  margin: 0;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.ad-content .real-content .map-container {
+  width: 95%;
+  height: 45%;
+  border: 1px solid gray;
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+  position: relative;
+  border-radius: 8px;
+}
+
+.leaflet-container {
+  width: 100% !important; /* Force full width */
+  height: 100% !important; /* Force full height */
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.input-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ad-details-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ad-detail {
+  font-size: 16px;
+  color: #333;
+}
+
+.ad-detail strong {
+  font-weight: 600;
+  color: #007bff;
+}
+
+.ad-detail span {
+  font-weight: 400;
+  color: #444;
+}
+
+/* Add some spacing between sections */
+.ad-content {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+/* Optional: Add responsive styles */
+@media (max-width: 768px) {
+  .ad-content {
+    flex-direction: column;
+  }
+
+  .map-container {
+    height: 200px;
+  }
+}

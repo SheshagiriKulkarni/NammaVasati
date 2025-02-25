@@ -1,0 +1,133 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0;
+  margin: 0;
+  height: 8vh;
+  width: 100vw;
+  font-family: "Roboto", sans-serif;
+  box-sizing: border-box;
+  font-size: large;
+  border-bottom: 1px solid rgb(192, 190, 190);
+  position: sticky;
+}
+
+.first {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0;
+  margin: 0;
+  height: max-content;
+  width: 50vw;
+  flex-wrap: wrap;
+}
+
+.navbar .logoholder {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar .logo {
+  background: url("https://bcassetcdn.com/public/blog/wp-content/uploads/2022/12/20212415/tiny-house-apartment-by-simplepixelsl-brandcrowd.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  width: 34px;
+  height: 34px;
+  border: none;
+  cursor: pointer;
+  margin-right: 0.5vw;
+  border-radius: 4px;
+}
+
+.navbar h1 {
+  padding: 0;
+  margin: 0;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2vw;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar li a {
+  text-decoration: none;
+  color: gray;
+}
+
+.navbar li a:hover {
+  color: black;
+}
+
+.second {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50vw;
+}
+
+.second button {
+  height: 4vh;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 6vw;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: medium;
+}
+
+.second .ad {
+  border: 1px solid rgb(227, 133, 83);
+  font-weight: 300;
+  color: rgb(78, 75, 75);
+  margin-right: 2vw;
+  margin-left: 25vw;
+  transition: all 0.3s ease-in-out;
+}
+
+.second .ad:hover {
+  font-weight: 400;
+  color: rgb(0, 0, 0);
+}
+
+.second .pro {
+  border: 1px solid rgb(92, 206, 92);
+  font-weight: 300;
+  color: rgb(78, 75, 75);
+  transition: all 0.3s ease-in-out;
+}
+
+.second .pro:hover {
+  font-weight: 400;
+  color: rgb(0, 0, 0);
+}
+
+.second .login {
+  border: 1px solid rgb(115, 165, 206);
+  font-weight: 300;
+  color: rgb(78, 75, 75);
+  transition: all 0.3s ease-in-out;
+}
+
+.second .login:hover {
+  font-weight: 400;
+  color: rgb(0, 0, 0);
+}

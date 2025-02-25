@@ -1,0 +1,65 @@
+.foot-container {
+  background-color: rgba(12, 14, 18, 0.852);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 0;
+  box-sizing: border-box;
+}
+
+.homefast {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  margin: 5vh 0;
+}
+
+.homefast h3 {
+  margin: 5px 0;
+}
+
+.homefast a {
+  color: white;
+  text-decoration: none;
+  margin: 3px 0;
+  font-weight: 300;
+  font-size: small;
+}
+
+.services {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  margin: 5vh 0;
+}
+
+.services h3 {
+  margin: 5px 0;
+}
+
+.services a {
+  color: white;
+  text-decoration: none;
+  margin: 3px 0;
+  font-weight: 300;
+  font-size: small;
+}
+
+.other {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  margin: 5vh 0;
+}
+
+.other h3 {
+  margin: 5px 0;
+}
+
+.other a {
+  color: white;
+  text-decoration: none;
+  margin: 3px 0;
+  font-weight: 300;
+  font-size: small;
+}
