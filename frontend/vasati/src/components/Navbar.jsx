@@ -46,7 +46,16 @@ function Navbar() {
               <Link to="/about">Notifications</Link>
             </li>
             <li>
-              <Link to="/myads">My Ads</Link>
+              {localStorage.getItem("userEmail") ? (
+                <Link to="/myads">My Ads</Link>
+              ) : (
+                <Link
+                  to="/"
+                  onClick={() => alert("Please log in to access My Ads")}
+                >
+                  My Ads
+                </Link>
+              )}
             </li>
             <li>
               <Link to="/wishlist">Wishlist</Link>

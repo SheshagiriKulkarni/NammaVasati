@@ -100,7 +100,7 @@ function Myads() {
       const userEmail = localStorage.getItem("userEmail");
       if (!userEmail) {
         alert("User email not found. Please log in.");
-        navigate("/login");
+        navigate("/");
         return;
       }
 
