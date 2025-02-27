@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useLocation, Navigate, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 import "@fontsource/roboto";
@@ -10,6 +10,9 @@ function Navbar() {
   const [showLoginModal, setShowLoginModal] = useState(false); // Tracks modal
   // visibility
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isActive = (path) => (location.pathname === path ? "active-link" : "");
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -40,14 +43,20 @@ function Navbar() {
 
           <ul className="navbar-links">
             <li>
-              <Link to="/">Home</Link>
+              <Link to="/" className={isActive("/")}>
+                Home
+              </Link>
             </li>
             <li>
-              <Link to="/about">Notifications</Link>
+              <Link to="/about" className={isActive("/about")}>
+                Notifications
+              </Link>
             </li>
             <li>
               {localStorage.getItem("userEmail") ? (
-                <Link to="/myads">My Ads</Link>
+                <Link to="/myads" className={isActive("/myads")}>
+                  My Ads
+                </Link>
               ) : (
                 <Link
                   to="#"
@@ -58,7 +67,9 @@ function Navbar() {
               )}
             </li>
             <li>
-              <Link to="/wishlist">Wishlist</Link>
+              <Link to="/wishlist" className={isActive("/wishlist")}>
+                Wishlist
+              </Link>
             </li>
           </ul>
         </div>
