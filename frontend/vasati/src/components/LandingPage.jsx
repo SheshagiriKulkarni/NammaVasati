@@ -19,25 +19,47 @@ function LandingPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Load wishlist from localStorage or API
-    const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-    setWishlist(storedWishlist);
-  }, []);
-
-  useEffect(() => {
     fetchPGs();
+    fetchWishlist();
   }, []);
 
-  const toggleWishlist = (pgId) => {
+  const fetchWishlist = async () => {
+    const userEmail = localStorage.getItem("userEmail");
+    if (!userEmail) return;
+
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/wishlist?email=${userEmail}`
+      );
+      setWishlist(response.data.wishlisted_ads || []);
+      localStorage.setItem(
+        "wishlist",
+        JSON.stringify(response.data.wishlisted_ads || [])
+      );
+    } catch (error) {
+      console.error("Error fetching wishlist:", error);
+    }
+  };
+
+  const toggleWishlist = async (adId) => {
     let updatedWishlist;
-    if (wishlist.includes(pgId)) {
-      updatedWishlist = wishlist.filter((id) => id !== pgId); // Remove from wishlist
+    if (wishlist.includes(adId)) {
+      updatedWishlist = wishlist.filter((id) => id !== adId);
     } else {
-      updatedWishlist = [...wishlist, pgId]; // Add to wishlist
+      updatedWishlist = [...wishlist, adId];
     }
 
     setWishlist(updatedWishlist);
-    localStorage.setItem("wishlist", JSON.stringify(updatedWishlist)); // Persist data
+    localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+
+    try {
+      await axios.post("http://localhost:5000/api/wishlist/update-wishlist", {
+        email: localStorage.getItem("userEmail"),
+        wishlisted_ads: updatedWishlist,
+      });
+    } catch (error) {
+      console.error("Error updating wishlist:", error);
+    }
   };
 
   const fetchPGs = async () => {
