@@ -6,6 +6,7 @@ import AdDetails from "./components/AdDetails";
 import SearchedPage from "./components/SearchedPage";
 import Myads from "./components/Myads";
 import Profile from "./components/Profile";
+import Wishlist from "./components/Wishlist";
 import "./App.css";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/searched/:search" element={<SearchedPage />} />
         <Route path="/myads" element={<Myads />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/wishlist" element={<Wishlist />} />
       </Routes>
     </Router>
   );
