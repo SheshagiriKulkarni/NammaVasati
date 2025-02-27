@@ -257,6 +257,10 @@
   transition: color 0.3s ease-in-out;
 }
 
+.wishlist-icon:hover {
+  color: red;
+}
+
 .wishlist-icon.active {
   color: red;
 }
