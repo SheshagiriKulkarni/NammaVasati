@@ -7,6 +7,7 @@ require("dotenv").config(); // Import environment variables
 
 const advertisementRoutes = require("./routes/advertisementRoutes");
 const authRoutes = require("./routes/authRoutes");
+const wishRoutes = require("./routes/wishlist");
 
 const app = express();
 const PORT = 5000;
@@ -25,6 +26,7 @@ mongoose
 // Routes
 app.use("/auth", authRoutes);
 app.use("/api/advertise", advertisementRoutes);
+app.use("/api/wishlist", wishRoutes);
 
 // Fallback route for undefined routes
 app.use((req, res) => {
