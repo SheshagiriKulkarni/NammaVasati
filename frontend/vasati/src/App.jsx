@@ -5,6 +5,7 @@ import Advertise from "./components/Advertise";
 import AdDetails from "./components/AdDetails";
 import SearchedPage from "./components/SearchedPage";
 import Myads from "./components/Myads";
+import Profile from "./components/Profile";
 import "./App.css";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/addetails/:adId" element={<AdDetails />} />
         <Route path="/searched/:search" element={<SearchedPage />} />
         <Route path="/myads" element={<Myads />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   );

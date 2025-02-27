@@ -50,7 +50,7 @@ function Navbar() {
                 <Link to="/myads">My Ads</Link>
               ) : (
                 <Link
-                  to="/"
+                  to="#"
                   onClick={() => alert("Please log in to access My Ads")}
                 >
                   My Ads
@@ -67,7 +67,9 @@ function Navbar() {
             Advertise
           </button>
           {isLoggedIn ? (
-            <button className="pro">Profile</button>
+            <button className="pro" onClick={navigate("/profile")}>
+              Profile
+            </button>
           ) : (
             <button className="login" onClick={handleLoginClick}>
               Login
