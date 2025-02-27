@@ -8,6 +8,7 @@ import { FaMale, FaFemale, FaVenusMars, FaBorderStyle } from "react-icons/fa";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { FaHeart } from "react-icons/fa"; // Import heart icon
 
 // Fix marker icon issue in Leaflet
 import markerIcon from "leaflet/dist/images/marker-icon.png";
@@ -94,6 +95,33 @@ function Myads() {
   const [mapCenter, setMapCenter] = useState([12.9716, 77.5946]);
   const navigate = useNavigate();
   const [pgs, setPgs] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
+
+  useEffect(() => {
+    const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    setWishlist(storedWishlist);
+  }, []);
+
+  const toggleWishlist = async (adId) => {
+    let updatedWishlist;
+    if (wishlist.includes(adId)) {
+      updatedWishlist = wishlist.filter((id) => id !== adId);
+    } else {
+      updatedWishlist = [...wishlist, adId];
+    }
+
+    setWishlist(updatedWishlist);
+    localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+
+    try {
+      await axios.post("http://localhost:5000/api/wishlist/update-wishlist", {
+        email: localStorage.getItem("userEmail"),
+        wishlisted_ads: updatedWishlist,
+      });
+    } catch (error) {
+      console.error("Error updating wishlist:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchPgDetails = async () => {
@@ -193,6 +221,16 @@ function Myads() {
                       ) : (
                         <p>No images available</p>
                       )}
+
+                      <FaHeart
+                        className={`wishlist-icon ${
+                          wishlist.includes(ad._id) ? "active" : ""
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent triggering card click
+                          toggleWishlist(ad._id);
+                        }}
+                      />
                     </div>
                     <div
                       className="about-ad"
