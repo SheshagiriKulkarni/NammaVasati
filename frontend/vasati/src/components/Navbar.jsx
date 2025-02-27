@@ -67,7 +67,7 @@ function Navbar() {
             Advertise
           </button>
           {isLoggedIn ? (
-            <button className="pro" onClick={navigate("/profile")}>
+            <button className="pro" onClick={() => navigate("/profile")}>
               Profile
             </button>
           ) : (
