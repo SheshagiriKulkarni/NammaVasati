@@ -7,6 +7,7 @@ import { FaMale, FaFemale, FaVenusMars, FaBorderStyle } from "react-icons/fa";
 import { useDropzone } from "react-dropzone";
 import Navbar from "./Navbar"; // Ensure Navbar is imported correctly
 import Footer from "./Footer";
+import { FaHeart } from "react-icons/fa"; // Import heart icon
 
 function LandingPage() {
   const [selectedLocation, setSelectedLocation] = useState("");
@@ -14,11 +15,30 @@ function LandingPage() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [query, setQuery] = useState("");
   const [pgList, setPgList] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Load wishlist from localStorage or API
+    const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    setWishlist(storedWishlist);
+  }, []);
 
   useEffect(() => {
     fetchPGs();
   }, []);
+
+  const toggleWishlist = (pgId) => {
+    let updatedWishlist;
+    if (wishlist.includes(pgId)) {
+      updatedWishlist = wishlist.filter((id) => id !== pgId); // Remove from wishlist
+    } else {
+      updatedWishlist = [...wishlist, pgId]; // Add to wishlist
+    }
+
+    setWishlist(updatedWishlist);
+    localStorage.setItem("wishlist", JSON.stringify(updatedWishlist)); // Persist data
+  };
 
   const fetchPGs = async () => {
     try {
@@ -231,24 +251,37 @@ function LandingPage() {
                   key={ad._id}
                   onClick={() => handleAdClick(ad._id)}
                 >
-                  {ad.images && ad.images.length > 0 ? (
-                    <div className="image-slider">
-                      {ad.images.map((image, index) => (
-                        <img
-                          key={index}
-                          src={`http://localhost:5000/api/advertise/images/${image}`}
-                          alt={ad.pgName}
-                          className="pg-image"
-                        />
-                      ))}
-                    </div>
-                  ) : (
-                    <img
-                      src="/default-image.jpg"
-                      alt="No image available"
-                      className="pg-image"
+                  <div className="image-container">
+                    {ad.images && ad.images.length > 0 ? (
+                      <div className="image-slider">
+                        {ad.images.map((image, index) => (
+                          <img
+                            key={index}
+                            src={`http://localhost:5000/api/advertise/images/${image}`}
+                            alt={ad.pgName}
+                            className="pg-image"
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                      <img
+                        src="/default-image.jpg"
+                        alt="No image available"
+                        className="pg-image"
+                      />
+                    )}
+
+                    <FaHeart
+                      className={`wishlist-icon ${
+                        wishlist.includes(ad._id) ? "active" : ""
+                      }`}
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent triggering card click
+                        toggleWishlist(ad._id);
+                      }}
                     />
-                  )}
+                  </div>
+
                   <div className="pg-details">
                     <div className="name-and-price">
                       <h3>{ad.pgName}</h3>
