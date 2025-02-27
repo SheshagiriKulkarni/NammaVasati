@@ -119,6 +119,7 @@ function Wishlist() {
         email: localStorage.getItem("userEmail"),
         wishlisted_ads: updatedWishlist,
       });
+      window.location.reload();
     } catch (error) {
       console.error("Error updating wishlist:", error);
     }
