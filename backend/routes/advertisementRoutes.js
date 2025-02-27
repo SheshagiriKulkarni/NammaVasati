@@ -136,6 +136,23 @@ router.get("/pgs", async (req, res) => {
   }
 });
 
+router.post("/wishlist", async (req, res) => {
+  try {
+    const { wishlist } = req.body; // Array of wishlisted ad IDs
+
+    if (!wishlist || wishlist.length === 0) {
+      return res.json([]); // Return empty if wishlist is empty
+    }
+
+    const wishlistedAds = await Advertisement.find({ _id: { $in: wishlist } });
+
+    res.json(wishlistedAds);
+  } catch (error) {
+    console.error("Error fetching wishlisted ads:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 router.get("/myads", async (req, res) => {
   try {
     const { email } = req.query;
