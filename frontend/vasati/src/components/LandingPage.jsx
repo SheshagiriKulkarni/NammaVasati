@@ -350,7 +350,7 @@ function LandingPage() {
               information.
             </p>
 
-            <button>Search On Map</button>
+            <button onClick={() => navigate("/onmap")}>Search On Map</button>
           </div>
           <div className="loc-img"></div>
         </div>
