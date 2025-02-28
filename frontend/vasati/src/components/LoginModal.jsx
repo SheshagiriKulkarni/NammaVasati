@@ -45,6 +45,7 @@ function LoginModal({ onClose, onLoginSuccess }) {
         localStorage.setItem("authToken", response.data.token); // Save the token to localStorage
         onLoginSuccess(email); // Call the callback function to update the Navbar state
         onClose(); // Close the modal after login
+        window.location.reload();
       }
     } catch (error) {
       alert(
