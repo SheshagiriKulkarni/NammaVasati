@@ -344,7 +344,7 @@ function LandingPage() {
 
         <div className="search-in-map">
           <div className="description">
-            <p className="p-first">Search Your PG On the Map</p>
+            <p className="p-first">Search Your PG On the Map.</p>
             <p className="p-second">
               Find the PG you are looking for easily according to location
               information.
