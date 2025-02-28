@@ -214,7 +214,7 @@
   display: flex;
   overflow-x: auto; /* Ensures scrolling works */
   gap: 10px;
-  margin-top: 5vh;
+  margin-top: 1vh;
   white-space: nowrap; /* Prevents wrapping of items */
   scroll-behavior: smooth; /* Enables smooth scrolling */
   box-sizing: border-box;
@@ -268,8 +268,10 @@
 .image-slider {
   display: flex;
   overflow-x: scroll;
+  overflow-y: hidden;
   max-width: 100%;
   height: 200px; /* You can adjust this based on your image aspect ratio */
+  scroll-snap-type: x mandatory; /* Optional: Smooth scrolling effect */
 }
 
 .pg-image {
