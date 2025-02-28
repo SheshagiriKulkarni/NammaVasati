@@ -7,6 +7,7 @@ import { FaMale, FaFemale, FaVenusMars, FaBorderStyle } from "react-icons/fa";
 import { useDropzone } from "react-dropzone";
 import Navbar from "./Navbar"; // Ensure Navbar is imported correctly
 import Footer from "./Footer";
+import { FaHeart } from "react-icons/fa"; // Import heart icon
 
 function LandingPage() {
   const [selectedLocation, setSelectedLocation] = useState("");
@@ -14,11 +15,52 @@ function LandingPage() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [query, setQuery] = useState("");
   const [pgList, setPgList] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchPGs();
+    fetchWishlist();
   }, []);
+
+  const fetchWishlist = async () => {
+    const userEmail = localStorage.getItem("userEmail");
+    if (!userEmail) return;
+
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/wishlist?email=${userEmail}`
+      );
+      setWishlist(response.data.wishlisted_ads || []);
+      localStorage.setItem(
+        "wishlist",
+        JSON.stringify(response.data.wishlisted_ads || [])
+      );
+    } catch (error) {
+      console.error("Error fetching wishlist:", error);
+    }
+  };
+
+  const toggleWishlist = async (adId) => {
+    let updatedWishlist;
+    if (wishlist.includes(adId)) {
+      updatedWishlist = wishlist.filter((id) => id !== adId);
+    } else {
+      updatedWishlist = [...wishlist, adId];
+    }
+
+    setWishlist(updatedWishlist);
+    localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+
+    try {
+      await axios.post("http://localhost:5000/api/wishlist/update-wishlist", {
+        email: localStorage.getItem("userEmail"),
+        wishlisted_ads: updatedWishlist,
+      });
+    } catch (error) {
+      console.error("Error updating wishlist:", error);
+    }
+  };
 
   const fetchPGs = async () => {
     try {
@@ -235,24 +277,37 @@ function LandingPage() {
                   key={ad._id}
                   onClick={() => handleAdClick(ad._id)}
                 >
-                  {ad.images && ad.images.length > 0 ? (
-                    <div className="image-slider">
-                      {ad.images.map((image, index) => (
-                        <img
-                          key={index}
-                          src={`http://localhost:5000/api/advertise/images/${image}`}
-                          alt={ad.pgName}
-                          className="pg-image"
-                        />
-                      ))}
-                    </div>
-                  ) : (
-                    <img
-                      src="/default-image.jpg"
-                      alt="No image available"
-                      className="pg-image"
+                  <div className="image-container">
+                    {ad.images && ad.images.length > 0 ? (
+                      <div className="image-slider">
+                        {ad.images.map((image, index) => (
+                          <img
+                            key={index}
+                            src={`http://localhost:5000/api/advertise/images/${image}`}
+                            alt={ad.pgName}
+                            className="pg-image"
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                      <img
+                        src="/default-image.jpg"
+                        alt="No image available"
+                        className="pg-image"
+                      />
+                    )}
+
+                    <FaHeart
+                      className={`wishlist-icon ${
+                        wishlist.includes(ad._id) ? "active" : ""
+                      }`}
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent triggering card click
+                        toggleWishlist(ad._id);
+                      }}
                     />
-                  )}
+                  </div>
+
                   <div className="pg-details">
                     <div className="name-and-price">
                       <h3>{ad.pgName}</h3>

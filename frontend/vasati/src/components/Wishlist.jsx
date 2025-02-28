@@ -90,15 +90,16 @@ const GenderTag = ({ gender }) => {
   );
 };
 
-function Myads() {
+function Wishlist() {
   const [pgDetails, setPgDetails] = useState([]);
   const [mapCenter, setMapCenter] = useState([12.9716, 77.5946]);
   const navigate = useNavigate();
   const [pgs, setPgs] = useState([]);
+
   const [wishlist, setWishlist] = useState([]);
 
   useEffect(() => {
-    const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    const storedWishlist = JSON.parse(localStorage.getItem("wishlist"));
     setWishlist(storedWishlist);
   }, []);
 
@@ -118,6 +119,7 @@ function Myads() {
         email: localStorage.getItem("userEmail"),
         wishlisted_ads: updatedWishlist,
       });
+      window.location.reload();
     } catch (error) {
       console.error("Error updating wishlist:", error);
     }
@@ -126,20 +128,29 @@ function Myads() {
   useEffect(() => {
     const fetchPgDetails = async () => {
       const userEmail = localStorage.getItem("userEmail");
+      const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
       if (!userEmail) {
         alert("User email not found. Please log in.");
         navigate("/");
         return;
       }
 
+      if (wishlist.length === 0) {
+        setPgDetails([]); // If wishlist is empty, set an empty state
+        return;
+      }
+
       try {
-        const response = await axios.get(
-          `http://localhost:5000/api/advertise/myads?email=${userEmail}`
+        const response = await axios.post(
+          "http://localhost:5000/api/advertise/wishlist",
+          { wishlist }
         );
+
         setPgs(response.data.map((pg) => ({ ...pg, currentImageIndex: 0 })));
         setPgDetails(response.data);
       } catch (error) {
-        console.error("Error fetching PG details:", error);
+        console.error("Error fetching wishlisted PG details:", error);
       }
     };
 
@@ -306,4 +317,4 @@ function Myads() {
   );
 }
 
-export default Myads;
+export default Wishlist;

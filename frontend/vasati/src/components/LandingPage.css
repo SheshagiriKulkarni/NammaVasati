@@ -243,6 +243,28 @@
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3); /* Adds depth */
 }
 
+.card .image-container {
+  position: relative;
+}
+
+.wishlist-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+.wishlist-icon:hover {
+  color: red;
+}
+
+.wishlist-icon.active {
+  color: red;
+}
+
 .image-slider {
   display: flex;
   overflow-x: scroll;

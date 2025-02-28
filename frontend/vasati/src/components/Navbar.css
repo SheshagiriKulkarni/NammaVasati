@@ -131,3 +131,8 @@ ul {
   font-weight: 400;
   color: rgb(0, 0, 0);
 }
+
+.navbar li .active-link {
+  color: black !important;
+  text-decoration: underline;
+}
