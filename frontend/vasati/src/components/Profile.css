@@ -1,0 +1,29 @@
+.prof-container .box-container {
+  display: flex;
+  min-height: 700px;
+  justify-content: center;
+  align-items: center;
+}
+
+.box-container .main-cont {
+  display: flex;
+  height: 500px;
+  border: 1px solid rgb(81, 80, 80);
+  border-radius: 10px;
+  width: 900px;
+  padding: 30px;
+  box-sizing: border-box;
+  gap: 20px;
+}
+
+.box-container .main-cont .left-cont {
+  width: 300px;
+  border: 1px solid rgb(165, 163, 163);
+  border-radius: 5px;
+}
+
+.box-container .main-cont .right-cont {
+  width: 520px;
+  border: 1px solid rgb(165, 163, 163);
+  border-radius: 5px;
+}

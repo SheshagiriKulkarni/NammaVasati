@@ -5,12 +5,18 @@ import { useNavigate } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
 import Navbar from "./Navbar"; // Ensure Navbar is imported correctly
 import Footer from "./Footer";
+import "./Profile.css";
 
 function Profile() {
   return (
     <div className="prof-container">
       <Navbar />
-      <h1>Welcome to profile</h1>
+      <div className="box-container">
+        <div className="main-cont">
+          <div className="left-cont"></div>
+          <div className="right-cont"></div>
+        </div>
+      </div>
 
       <footer>
         <Footer />
