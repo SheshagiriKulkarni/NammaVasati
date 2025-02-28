@@ -35,6 +35,7 @@ function AdDetails() {
         const response = await axios.get(
           `http://localhost:5000/api/advertise/${adId}`
         );
+        console.log(response.data);
         setAd(response.data);
         setLoading(false);
       } catch (err) {
@@ -42,7 +43,6 @@ function AdDetails() {
         setLoading(false);
       }
     };
-
     fetchAdDetails();
   }, [adId]);
 

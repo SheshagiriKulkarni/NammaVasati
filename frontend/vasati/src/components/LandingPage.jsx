@@ -30,6 +30,10 @@ function LandingPage() {
     }
   };
 
+  const handleAllClick = () => {
+    navigate("/AllAddetails");
+  };
+
   const fetchLocations = async (input) => {
     if (!input) {
       setSuggestions([]);
@@ -220,7 +224,7 @@ function LandingPage() {
         <div className="featured-pg">
           <div className="pg-name">
             <p>Featured PGs</p>
-            <button>All</button>
+            <button onClick={handleAllClick}>All</button>
           </div>
 
           <div className="pg-list">

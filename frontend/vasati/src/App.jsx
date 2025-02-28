@@ -4,6 +4,7 @@ import LandingPage from "./components/LandingPage";
 import Advertise from "./components/Advertise";
 import AdDetails from "./components/AdDetails";
 import SearchedPage from "./components/SearchedPage";
+import AllAddetails from "./components/AllAddetails";
 import Myads from "./components/Myads";
 import "./App.css";
 
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/advertise" element={<Advertise />} />
+        <Route path="/AllAddetails" element={<AllAddetails />} />
         <Route path="/addetails/:adId" element={<AdDetails />} />
         <Route path="/searched/:search" element={<SearchedPage />} />
         <Route path="/myads" element={<Myads />} />
