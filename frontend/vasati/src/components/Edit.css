@@ -1,0 +1,18 @@
+.advertise-btn {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+}
+
+.advertise-btn .can-btn {
+  height: 6vh;
+  width: 9vw;
+  color: white;
+  font-size: large;
+  font-weight: bold;
+  background-color: rgb(236, 123, 70);
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}

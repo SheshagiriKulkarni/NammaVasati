@@ -8,6 +8,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import "./Advertise.css";
 import { useParams, useNavigate } from "react-router-dom";
+import "./Edit.css";
 
 const customIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/128/684/684908.png", // Map marker icon
@@ -501,7 +502,10 @@ function Advertise() {
       </div>
       <div className="advertise-btn">
         <button className="sub-btn" onClick={handleSubmit}>
-          Advertise
+          Update
+        </button>
+        <button className="can-btn" onClick={() => navigate("/myads")}>
+          Cancel
         </button>
       </div>
       <Footer />
