@@ -17,13 +17,90 @@
 }
 
 .box-container .main-cont .left-cont {
-  width: 300px;
+  width: 400px;
   border: 1px solid rgb(165, 163, 163);
   border-radius: 5px;
 }
 
+.box-container .main-cont .left-cont .image-conta {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box-container .main-cont .left-cont .image-field {
+  width: 200px;
+  height: 200px;
+  border: 1px solid rgb(165, 163, 163);
+  border-radius: 100px;
+  margin-top: 10px;
+}
+
 .box-container .main-cont .right-cont {
-  width: 520px;
+  width: 420px;
   border: 1px solid rgb(165, 163, 163);
   border-radius: 5px;
+}
+
+.email-cont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+
+.email-cont .email {
+  font-size: 20px;
+  font-weight: 400;
+  color: rgb(87, 86, 86);
+}
+
+.email-cont .email:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.date-cont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+
+.date-cont .date {
+  font-size: 20px;
+  font-weight: 400;
+  color: rgb(87, 86, 86);
+}
+
+.date-cont .date:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.btns {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  justify-content: space-around;
+  margin-top: 15px;
+}
+
+.btns button {
+  height: 35px;
+  width: 140px;
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(121, 185, 244);
+  font-size: 18px;
+}
+
+.btns button:hover {
+  cursor: pointer;
+}
+
+.btns button span {
+  font-weight: 700;
 }
