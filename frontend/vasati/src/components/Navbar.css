@@ -10,7 +10,6 @@
   box-sizing: border-box;
   font-size: large;
   border-bottom: 1px solid rgb(192, 190, 190);
-  position: sticky;
 }
 
 .first {
@@ -31,10 +30,10 @@
 }
 
 .navbar .logo {
-  background: url("https://bcassetcdn.com/public/blog/wp-content/uploads/2022/12/20212415/tiny-house-apartment-by-simplepixelsl-brandcrowd.png");
+  background: url("https://cdn-icons-png.freepik.com/512/48/48863.png");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: contain;
+  background-size: 90%;
   width: 34px;
   height: 34px;
   border: none;
@@ -47,7 +46,7 @@
   padding: 0;
   margin: 0;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 ul {

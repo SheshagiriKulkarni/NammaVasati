@@ -52,6 +52,10 @@
   outline: none;
 }
 
+.search-input input::placeholder {
+  text-align: center;
+}
+
 .sea-btns {
   display: flex;
   align-items: center;

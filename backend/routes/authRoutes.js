@@ -21,11 +21,16 @@ router.post("/signup", async (req, res) => {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Save the user to the database
-    const newUser = new User({ email, password: hashedPassword });
+    // Save the user to the database with joinedDate
+    const newUser = new User({
+      email,
+      password: hashedPassword,
+      joinedDate: new Date(), // ✅ Explicitly setting joinedDate
+    });
+
     await newUser.save();
 
-    // Respond with success message or token if needed
+    // Respond with success message
     res.status(201).json({ message: "User registered successfully" });
   } catch (err) {
     console.error(err);
