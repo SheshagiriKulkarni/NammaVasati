@@ -337,12 +337,16 @@
   width: calc(100% - 2vw);
   margin-top: 10vh;
   margin-bottom: 4vh;
+  gap: 15px;
 }
 
 .search-in-map .description {
   width: 70%;
   display: flex;
   flex-direction: column;
+  border: 1px solid gray;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .search-in-map .description button {
@@ -354,10 +358,12 @@
   font-weight: 400;
   cursor: pointer;
   width: 10vw;
-  margin-top: 7vh;
   height: 5vh;
   font-size: 14px;
   box-sizing: border-box;
+  align-self: flex-start;
+  margin-top: auto;
+  margin-bottom: 4px;
 }
 
 .search-in-map .loc-img {

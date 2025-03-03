@@ -92,6 +92,11 @@ ul {
   align-items: center;
   justify-content: center;
   font-size: medium;
+  transition: 0.3s all ease-in-out;
+}
+
+.second button:hover {
+  scale: 1.05;
 }
 
 .second .ad {

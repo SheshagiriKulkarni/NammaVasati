@@ -8,6 +8,11 @@ import { FaBorderStyle } from "react-icons/fa";
 import L from "leaflet";
 import "./Onmap.css";
 
+const pgIcon = new L.Icon({
+  iconUrl: "https://cdn-icons-png.flaticon.com/128/619/619153.png", // House Icon
+  iconSize: [30, 30],
+});
+
 const customIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/128/684/684908.png",
   iconSize: [30, 30],
@@ -24,6 +29,7 @@ function MapResizer() {
 }
 
 function Onmap() {
+  const [pgs, setPgs] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [query, setQuery] = useState("");
@@ -33,6 +39,20 @@ function Onmap() {
     lng: 77.209,
     name: "",
   });
+
+  useEffect(() => {
+    fetchPGs();
+  }, []);
+
+  const fetchPGs = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/advertise"); // Adjust API URL
+      setPgs(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching PGs:", error.message || error);
+    }
+  };
 
   const fetchLocations = async (input) => {
     if (!input) {
@@ -232,6 +252,19 @@ function Onmap() {
             >
               <Popup>{selectedLocation.name || "Selected Location"}</Popup>
             </Marker>
+
+            {pgs.map((pg) => (
+              <Marker
+                key={pg._id}
+                position={[pg.latitude, pg.longitude]}
+                icon={pgIcon}
+              >
+                <Popup>
+                  <strong>{pg.pgName}</strong> <br />
+                  Price: {pg.price}
+                </Popup>
+              </Marker>
+            ))}
           </MapContainer>
         </div>
       </div>
