@@ -84,6 +84,80 @@ router.post("/", upload.array("images"), async (req, res) => {
   }
 });
 
+router.put("/:id", upload.array("images"), async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const {
+      pgName,
+      price,
+      gender,
+      amenities,
+      occupancy,
+      description,
+      latitude,
+      longitude,
+      locationName,
+      mailid,
+    } = req.body;
+
+    let images = req.files.map((file) => file.filename); // New images
+
+    // Find the existing ad
+    const existingAd = await Advertisement.findById(id);
+    if (!existingAd) {
+      return res.status(404).json({ message: "Ad not found" });
+    }
+
+    // If new images are not uploaded, keep existing images
+    if (images.length === 0) {
+      images = existingAd.images;
+    }
+
+    // Update the ad
+    const updatedAd = await Advertisement.findByIdAndUpdate(
+      id,
+      {
+        pgName,
+        price,
+        gender,
+        amenities: JSON.parse(amenities),
+        occupancy,
+        description,
+        latitude,
+        longitude,
+        locationName,
+        images,
+        mailid,
+      },
+      { new: true }
+    );
+
+    res.status(200).json({ message: "Ad updated successfully!", updatedAd });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error updating ad" });
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const adId = req.params.id;
+
+    // Find the ad by ID and delete it
+    const deletedAd = await Advertisement.findByIdAndDelete(adId);
+
+    if (!deletedAd) {
+      return res.status(404).json({ message: "Advertisement not found" });
+    }
+
+    res.status(200).json({ message: "Advertisement deleted successfully!" });
+  } catch (error) {
+    console.error("Error deleting ad:", error);
+    res.status(500).json({ message: "Error deleting ad" });
+  }
+});
+
 router.get("/images/:filename", async (req, res) => {
   try {
     // Query the file based on the filename

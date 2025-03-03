@@ -9,6 +9,7 @@ import Myads from "./components/Myads";
 import Profile from "./components/Profile";
 import Wishlist from "./components/Wishlist";
 import Onmap from "./components/Onmap";
+import Edit from "./components/Edit";
 import "./App.css";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/onmap" element={<Onmap />} />
+        <Route path="/edit-ad/:adId" element={<Edit />} />
       </Routes>
     </Router>
   );
