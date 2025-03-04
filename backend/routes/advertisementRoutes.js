@@ -243,6 +243,17 @@ router.get("/myads", async (req, res) => {
   }
 });
 
+router.get("/ads", async (req, res) => {
+  try {
+    const ads = await Advertisement.find();
+
+    res.status(200).json(ads);
+  } catch (error) {
+    console.error("Error fetching ads:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 router.get("/:adId", async (req, res) => {
   try {
     const { adId } = req.params;
