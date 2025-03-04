@@ -36,6 +36,11 @@
   border: 1px solid rgb(165, 163, 163);
   border-radius: 100px;
   margin-top: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 .box-container .main-cont .right-cont {
@@ -103,4 +108,94 @@
 
 .btns button span {
   font-weight: 700;
+}
+
+.mob-no {
+  margin-top: 5px;
+  padding-left: 20px;
+  margin-top: 20px;
+  display: flex;
+  gap: 5px;
+  font-size: 20px;
+  color: rgb(92, 92, 92);
+}
+
+.mob {
+  color: rgb(0, 42, 255);
+}
+
+.mob:hover {
+  color: rgb(0, 42, 255);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.ads {
+  display: flex;
+  padding-left: 20px;
+  flex-direction: column;
+}
+
+.ads .head {
+  margin: 0;
+  color: rgb(90, 86, 86);
+}
+
+.ads ol {
+  padding-left: 20px;
+}
+
+.ads ol li {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.ads ol li span:hover {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.post-ad {
+  font-size: 18px;
+  padding-left: 20px;
+}
+
+.post-ad .post {
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.post-ad .post:hover {
+  text-decoration: underline;
+  color: blue;
+}
+
+.outer-btns {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-ads {
+  width: 35%;
+  margin: 0 20px 0 20px;
+  padding: 2px;
+  border: 1px solid rgb(31, 131, 239);
+  height: 4vh;
+  border-radius: 4px;
+}
+
+.user-ads button {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(111, 169, 239);
+  border: none;
+  cursor: pointer;
+  border-radius: 2px;
+  color: white;
+  font-size: 16px;
+}
+
+.user-ads button:hover {
+  background-color: rgb(102, 162, 236);
 }
