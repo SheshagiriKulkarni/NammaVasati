@@ -1,0 +1,294 @@
+.prof-container .box-container {
+  display: flex;
+  min-height: 700px;
+  justify-content: center;
+  align-items: center;
+}
+
+.box-container .main-cont {
+  display: flex;
+  height: 500px;
+  border: 1px solid rgb(81, 80, 80);
+  border-radius: 10px;
+  width: 900px;
+  padding: 30px;
+  box-sizing: border-box;
+  gap: 20px;
+}
+
+.box-container .main-cont .left-cont {
+  width: 400px;
+  border: 1px solid rgb(165, 163, 163);
+  border-radius: 5px;
+}
+
+.box-container .main-cont .left-cont .image-conta {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.box-container .main-cont .left-cont .image-field {
+  width: 200px;
+  height: 200px;
+  border: 1px solid rgb(165, 163, 163);
+  border-radius: 100px;
+  margin-top: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.edit-image-btn {
+  position: absolute;
+  bottom: 40px;
+  right: 103px;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  transform: rotate(90deg);
+  transition: background-color 0.3s ease;
+  z-index: 100;
+}
+
+.edit-image-btn:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.box-container .main-cont .right-cont {
+  width: 420px;
+  border: 1px solid rgb(165, 163, 163);
+  border-radius: 5px;
+}
+
+.email-cont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+
+.email-cont .email {
+  font-size: 20px;
+  font-weight: 400;
+  color: rgb(87, 86, 86);
+}
+
+.email-cont .email:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.date-cont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+
+.date-cont .date {
+  font-size: 20px;
+  font-weight: 400;
+  color: rgb(87, 86, 86);
+}
+
+.date-cont .date:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.btns {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.btns button {
+  height: 35px;
+  width: 140px;
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(121, 185, 244);
+  font-size: 18px;
+}
+
+.btns button:hover {
+  cursor: pointer;
+}
+
+.btns button span {
+  font-weight: 700;
+}
+
+.ed-mob {
+  position: relative;
+}
+
+.mob-no {
+  margin-top: 5px;
+  padding-left: 20px;
+  margin-top: 20px;
+  display: flex;
+  gap: 5px;
+  font-size: 20px;
+  color: rgb(92, 92, 92);
+  position: relative;
+  align-items: center;
+}
+
+.mob {
+  color: rgb(0, 42, 255);
+}
+
+.mob:hover {
+  color: rgb(0, 42, 255);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.ads {
+  display: flex;
+  padding-left: 20px;
+  flex-direction: column;
+}
+
+.ads .head {
+  margin: 0;
+  color: rgb(90, 86, 86);
+}
+
+.ads ol {
+  padding-left: 20px;
+}
+
+.ads ol li {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.ads ol li span:hover {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.post-ad {
+  font-size: 18px;
+  padding-left: 20px;
+}
+
+.para {
+  min-width: 261px; /* Adjust the value as needed */
+  display: inline-block; /* Ensures min-width applies correctly */
+}
+
+.post-ad .first-p {
+  margin-top: 0px;
+}
+
+.post-ad .post {
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.post-ad .post:hover {
+  text-decoration: underline;
+  color: blue;
+}
+
+.outer-btns {
+  margin-top: 40px;
+  display: flex;
+  gap: 110px;
+  margin-left: 20px;
+}
+
+.in-btns {
+  background-color: rgb(121, 185, 244);
+  cursor: pointer;
+  width: 130px;
+  height: 5vh;
+  border: none;
+  font-size: 18px;
+  border-radius: 4px;
+}
+
+.in-btns:hover {
+  text-decoration: underline;
+}
+
+.edit-mobile-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: rgb(92, 92, 92);
+  margin-left: 10px;
+  width: 30px;
+  height: 30px;
+  transform: rotate(90deg);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 15px;
+  margin-left: 50px;
+}
+.edit-mobile-btn:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.mobile-edit-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 11px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.mobile-edit-input {
+  flex-grow: 1;
+  padding: 5px;
+  font-size: 18px;
+  border: 1px solid rgb(165, 163, 163);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.mobile-edit-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.save-mobile-btn,
+.cancel-mobile-btn {
+  padding: 5px 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.save-mobile-btn {
+  background-color: rgb(121, 185, 244);
+  color: white;
+}
+
+.cancel-mobile-btn {
+  background-color: #f0f0f0;
+  color: rgb(92, 92, 92);
+}

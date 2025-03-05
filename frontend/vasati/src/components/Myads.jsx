@@ -9,6 +9,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { FaHeart } from "react-icons/fa"; // Import heart icon
+import { FaEdit } from "react-icons/fa";
 
 // Fix marker icon issue in Leaflet
 import markerIcon from "leaflet/dist/images/marker-icon.png";
@@ -180,6 +181,33 @@ function Myads() {
     );
   };
 
+  const handleDelete = async (adId) => {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this ad?"
+    );
+
+    if (!isConfirmed) return; // If the user cancels, do nothing
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/advertise/${adId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete the ad");
+      }
+
+      alert("Ad deleted successfully!");
+      window.location.reload(); // Refresh the page or navigate the user
+    } catch (error) {
+      console.error("Error deleting ad:", error);
+      alert("Failed to delete the ad. Please try again.");
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -265,6 +293,16 @@ function Myads() {
                         <button className="ca-btn">Request a Callback</button>
                       </div>
                     </div>
+
+                    <div
+                      className="edit-icon"
+                      onClick={() => navigate(`/edit-ad/${ad._id}`)}
+                    ></div>
+
+                    <div
+                      className="delete-icon"
+                      onClick={() => handleDelete(ad._id)}
+                    ></div>
                   </div>
                 ))}
               </div>

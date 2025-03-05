@@ -409,13 +409,13 @@ function LandingPage() {
 
         <div className="search-in-map">
           <div className="description">
-            <p className="p-first">Search Your PG On the Map</p>
+            <p className="p-first">Search Your PG On the Map.</p>
             <p className="p-second">
               Find the PG you are looking for easily according to location
               information.
             </p>
 
-            <button>Search On Map</button>
+            <button onClick={() => navigate("/onmap")}>Search On Map</button>
           </div>
           <div className="loc-img"></div>
         </div>
