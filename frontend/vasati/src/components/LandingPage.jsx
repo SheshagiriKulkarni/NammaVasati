@@ -8,6 +8,9 @@ import { useDropzone } from "react-dropzone";
 import Navbar from "./Navbar"; // Ensure Navbar is imported correctly
 import Footer from "./Footer";
 import { FaHeart } from "react-icons/fa"; // Import heart icon
+import ChatModal from "./ChatModal";
+import "./ChatModal.css";
+
 
 function LandingPage() {
   const [selectedLocation, setSelectedLocation] = useState("");
@@ -17,6 +20,31 @@ function LandingPage() {
   const [pgList, setPgList] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const navigate = useNavigate();
+
+  //Chat feature
+  const [chatRoomId, setChatRoomId] = useState(null);
+  const [chatOwner, setChatOwner] = useState(null);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  const openChat = (ownerEmail) => {
+    const userEmail = localStorage.getItem("userEmail");
+    if (!userEmail) {
+      alert("Please log in to chat.");
+      return;
+    }
+
+    const roomId = [userEmail, ownerEmail].sort().join("_");
+    setChatRoomId(roomId);
+    setChatOwner(ownerEmail);
+    setIsChatOpen(true);
+  };
+
+  const closeChat = () => {
+    setIsChatOpen(false);
+    setChatRoomId(null);
+    setChatOwner(null);
+  };
+
 
   useEffect(() => {
     fetchPGs();
@@ -196,7 +224,24 @@ function LandingPage() {
       navigate(`/searched/${query}`);
     }
   };
-
+  const sendReserveMessage = async (ownerEmail) => {
+    const userEmail = localStorage.getItem("userEmail");
+    if (!userEmail) {
+      alert("Please log in to chat.");
+      return;
+    }
+  
+    try {
+      await axios.post("http://localhost:5000/api/chat/send", {
+        senderEmail: userEmail,
+        receiverEmail: ownerEmail,
+        message: "Please reserve this PG for me",
+      });
+    } catch (error) {
+      console.error("Error sending reservation message:", error);
+    }
+  };
+  
   return (
     <div className="container">
       <Navbar />
@@ -330,17 +375,37 @@ function LandingPage() {
                         : ad.locationName}
                     </p>
                     <div className="btns-in-card">
-                      <button>Reserve</button>
-                      <button>Call Back</button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent card click event
+                        openChat(ad.mailid); // Open chat
+                        sendReserveMessage(ad.mailid); // Send the reserve message
+                      }}
+                    >
+                      Reserve
+                    </button>
+
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent card click event
+                          console.log(ad.mailid);
+                          openChat(ad.mailid);
+                        }}
+                      >
+                        Call Back
+                      </button>
                     </div>
                   </div>
                 </div>
               ))
+              
             ) : (
               <p>No PGs available</p>
             )}
           </div>
         </div>
+        {isChatOpen && <ChatModal roomId={chatRoomId} senderEmail={localStorage.getItem("userEmail")} receiverEmail={chatOwner} onClose={closeChat} />}
+
 
         <div className="search-in-map">
           <div className="description">

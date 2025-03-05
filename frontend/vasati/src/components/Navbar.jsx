@@ -71,6 +71,11 @@ function Navbar() {
                 Wishlist
               </Link>
             </li>
+            <li>
+              <Link to="/chatList" className={isActive("/chatList")}>
+                Messages
+              </Link>
+            </li>
           </ul>
         </div>
         <div className="second">

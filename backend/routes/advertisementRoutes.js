@@ -145,7 +145,7 @@ router.post("/wishlist", async (req, res) => {
     }
 
     const wishlistedAds = await Advertisement.find({ _id: { $in: wishlist } });
-
+    console.log(wishlistedAds);
     res.json(wishlistedAds);
   } catch (error) {
     console.error("Error fetching wishlisted ads:", error);

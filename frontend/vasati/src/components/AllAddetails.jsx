@@ -1,39 +1,3 @@
-// import { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import "./AllAddetails.css";
-
-// const AllAddetails = () => {
-//   const [ads, setAds] = useState([]);
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     // Fetch all ads from the backend
-//     fetch("http://localhost:5000/api/ads") // Adjust the API route as per your backend
-//       .then((res) => res.json())
-//       .then((data) => {
-//         setAds(data)})
-//       .catch((err) => console.error("Error fetching ads:", err));
-//   }, []);
-
-//   return (
-//     <div>
-//       <h2>All PG Listings</h2>
-//       <div className="grid-container">
-//         {ads.map((ad) => (
-//           <div key={ad._id} className="ad-card" onClick={() => navigate(`/adddetails/${ad._id}`)}>
-//             <img src={ad.image} alt={ad.pgName} className="ad-image" />
-//             <h3>{ad.pgName}</h3>
-//             <p>Price: ₹{ad.price}</p>
-//             <p>Location: {ad.location}</p>
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default AllAddetails;
-
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";

@@ -1,0 +1,66 @@
+/* ChatList.css */
+.chat-container {
+    display: flex;
+    height: 100vh;
+    background-color: #f4f4f4;
+    font-family: "Roboto", sans-serif;
+  }
+  
+  /* Sidebar for Chat List */
+  .chat-sidebar {
+    width: 30%;
+    background: white;
+    padding: 20px;
+    border-right: 2px solid #ddd;
+    overflow-y: auto;
+  }
+  
+  .chat-sidebar h2 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .chat-list {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+  }
+  
+  .chat-item {
+    padding: 15px;
+    border-radius: 5px;
+    background: #fff;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .chat-item:hover {
+    background: #f0f0f0;
+  }
+  
+  .chat-user {
+    font-weight: bold;
+    color: #007bff;
+    flex-grow: 1;
+  }
+  
+  /* Chat Window */
+  .chat-window {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .no-chat {
+    font-size: 18px;
+    color: #666;
+  }
+  
