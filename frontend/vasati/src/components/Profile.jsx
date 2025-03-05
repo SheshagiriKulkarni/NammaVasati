@@ -9,18 +9,136 @@ import "./Profile.css";
 
 function Profile() {
   const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null); // Store the image URL from the backend
   const fileInputRef = React.useRef(null);
   const navigate = useNavigate();
   const [pgs, setPgs] = useState([]);
 
+  const userEmail = localStorage.getItem("userEmail");
+  const [mobileNumber, setMobileNumber] = useState("9353722418");
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedMobileNumber, setEditedMobileNumber] = useState("");
+
+  const handleEditMobile = () => {
+    setEditedMobileNumber(mobileNumber);
+    setIsEditing(true);
+  };
+
+  useEffect(() => {
+    const fetchMobileNumber = async () => {
+      if (!userEmail) {
+        alert("User email not found. Please log in.");
+        navigate("/");
+        return;
+      }
+
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/auth/getMobileNumber/${userEmail}`
+        );
+
+        // Set mobile number, default to empty string if null
+        setMobileNumber(response.data.mobileNumber || "");
+      } catch (error) {
+        console.error("Error fetching mobile number:", error);
+        // Optionally set a default or handle the error
+        setMobileNumber("");
+      }
+    };
+
+    fetchMobileNumber();
+  }, [userEmail, navigate]);
+
+  const handleSaveMobile = async () => {
+    // Validate mobile number (you can add more robust validation)
+    if (editedMobileNumber.length !== 10) {
+      alert("Please enter a valid 10-digit mobile number");
+      return;
+    }
+
+    try {
+      // Assuming you have an API endpoint to update mobile number
+      const userEmail = localStorage.getItem("userEmail");
+      const response = await axios.post(
+        "http://localhost:5000/auth/updateMobileNumber",
+        {
+          email: userEmail,
+          mobileNumber: editedMobileNumber,
+        }
+      );
+
+      // Update local state if API call is successful
+      setMobileNumber(response.data.mobileNumber);
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error updating mobile number:", error);
+      alert("Failed to update mobile number");
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setEditedMobileNumber(mobileNumber);
+  };
+
+  const fetchProfileImage = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/auth/profileImage/${userEmail}`,
+        {
+          responseType: "blob",
+        }
+      );
+
+      const imageUrl = URL.createObjectURL(response.data);
+      setImageUrl(imageUrl);
+      console.log("Fetched image URL:", imageUrl);
+    } catch (error) {
+      console.error("Error fetching profile image:", error);
+      // Set a default image or handle the error state
+      setImageUrl("/path/to/default/profile/image.png"); // Replace with your default image path
+    }
+  };
+
+  useEffect(() => {
+    if (userEmail) fetchProfileImage();
+  }, [userEmail]);
   const handleClick = () => {
     fileInputRef.current.click();
   };
 
-  const handleImageUpload = (event) => {
+  const triggerFileInput = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleImageUpload = async (event) => {
     const file = event.target.files[0];
-    if (file) {
-      setImage(Object.assign(file, { preview: URL.createObjectURL(file) }));
+    if (!file) {
+      alert("Please select an image");
+    }
+
+    setImage(Object.assign(file, { preview: URL.createObjectURL(file) }));
+
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("email", userEmail);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/auth/uploadProfileImage",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      console.log(response.data);
+
+      if (response.data.filename) {
+        fetchProfileImage(userEmail);
+      }
+    } catch (error) {
+      console.error("Error uploading profile image:", error);
     }
   };
 
@@ -47,6 +165,11 @@ function Profile() {
     fetchPgDetails();
   }, [navigate]);
 
+  const handleAdClick = (adId) => {
+    console.log(adId);
+    navigate(`/addetails/${adId}`); // Navigates to the ad's page
+  };
+
   return (
     <div className="prof-container">
       <Navbar />
@@ -54,7 +177,7 @@ function Profile() {
         <div className="main-cont">
           <div className="left-cont">
             <div className="image-conta">
-              <div className="image-field" onClick={handleClick}>
+              <div className="image-field">
                 <input
                   type="file"
                   accept="image/*"
@@ -63,15 +186,21 @@ function Profile() {
                   ref={fileInputRef}
                   style={{ display: "none" }} // Hide the input field
                 />
-                {image ? (
+                {imageUrl ? (
                   <img
-                    src={image.preview}
+                    src={imageUrl}
                     alt="Profile Preview"
                     className="preview-image"
                   />
                 ) : (
-                  <div className="placeholder">+</div>
+                  <div className="placeholder" onClick={handleClick}>
+                    +
+                  </div>
                 )}
+
+                <button className="edit-image-btn" onClick={triggerFileInput}>
+                  ✎
+                </button>
               </div>
             </div>
             <div className="email-cont">
@@ -94,9 +223,50 @@ function Profile() {
             </div>
           </div>
           <div className="right-cont">
-            <div className="mob-no">
-              <p className="mob-p">Mobile Number&nbsp;:</p>
-              <p className="mob">9353722418</p>
+            <div className="ed-mob">
+              <div className="mob-no">
+                {!isEditing ? (
+                  <>
+                    <p className="mob-p">Mobile Number&nbsp;:</p>
+                    <p className="mob">
+                      {mobileNumber || "No mobile number added"}
+                    </p>
+                    {mobileNumber && (
+                      <button
+                        className="edit-mobile-btn"
+                        onClick={handleEditMobile}
+                      >
+                        ✎
+                      </button>
+                    )}
+                  </>
+                ) : (
+                  <div className="mobile-edit-container">
+                    <input
+                      type="tel"
+                      value={editedMobileNumber}
+                      onChange={(e) => setEditedMobileNumber(e.target.value)}
+                      className="mobile-edit-input"
+                      maxLength="10"
+                      placeholder="Enter mobile number"
+                    />
+                    <div className="mobile-edit-actions">
+                      <button
+                        className="save-mobile-btn"
+                        onClick={handleSaveMobile}
+                      >
+                        OK
+                      </button>
+                      <button
+                        className="cancel-mobile-btn"
+                        onClick={handleCancelEdit}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="ads">
@@ -104,27 +274,53 @@ function Profile() {
               <ol>
                 {pgs.map((pg, index) => (
                   <li key={index} className="li-items">
-                    <span>{pg.pgName}</span>
+                    <span onClick={() => handleAdClick(pg._id)}>
+                      {pg.pgName}
+                    </span>
                   </li>
                 ))}
               </ol>
             </div>
 
             <div className="post-ad">
+              <p className="first-p">
+                <span className="para">To Post an Ad Click Here 👉</span>
+                <span>: </span>
+                <span className="post" onClick={() => navigate("/advertise")}>
+                  Post Now
+                </span>
+              </p>
+            </div>
+
+            <div className="post-ad">
               <p>
-                To Post an Ad Click Here 👉 :{" "}
-                <span className="post">Post Now</span>
+                <span className="para">Find Your Favourite PG Here 👉</span>
+                <span>: </span>
+                <span
+                  className="post"
+                  onClick={() => navigate("/AllAddetails")}
+                >
+                  Find Now
+                </span>
+              </p>
+            </div>
+
+            <div className="post-ad">
+              <p>
+                <span className="para">Check New Messages Here 👉</span>
+                <span>: </span>
+                <span className="post">Find Now</span>
               </p>
             </div>
 
             <div className="outer-btns">
-              <div className="user-ads">
-                <button>My Ads</button>
-              </div>
+              <button className="in-btns" onClick={() => navigate("/myads")}>
+                My Ads
+              </button>
 
-              <div className="user-ads">
-                <button>Wishlist</button>
-              </div>
+              <button className="in-btns" onClick={() => navigate("/wishlist")}>
+                Wishlist
+              </button>
             </div>
           </div>
         </div>

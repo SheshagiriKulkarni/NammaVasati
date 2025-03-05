@@ -28,6 +28,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .box-container .main-cont .left-cont .image-field {
@@ -41,6 +42,30 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+}
+
+.edit-image-btn {
+  position: absolute;
+  bottom: 40px;
+  right: 103px;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  transform: rotate(90deg);
+  transition: background-color 0.3s ease;
+  z-index: 100;
+}
+
+.edit-image-btn:hover {
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .box-container .main-cont .right-cont {
@@ -90,7 +115,7 @@
   width: 100%;
   height: 40px;
   justify-content: space-around;
-  margin-top: 15px;
+  margin-top: 20px;
 }
 
 .btns button {
@@ -110,6 +135,10 @@
   font-weight: 700;
 }
 
+.ed-mob {
+  position: relative;
+}
+
 .mob-no {
   margin-top: 5px;
   padding-left: 20px;
@@ -118,6 +147,8 @@
   gap: 5px;
   font-size: 20px;
   color: rgb(92, 92, 92);
+  position: relative;
+  align-items: center;
 }
 
 .mob {
@@ -161,6 +192,15 @@
   padding-left: 20px;
 }
 
+.para {
+  min-width: 261px; /* Adjust the value as needed */
+  display: inline-block; /* Ensures min-width applies correctly */
+}
+
+.post-ad .first-p {
+  margin-top: 0px;
+}
+
 .post-ad .post {
   cursor: pointer;
   font-weight: 500;
@@ -172,30 +212,83 @@
 }
 
 .outer-btns {
+  margin-top: 40px;
   display: flex;
-  justify-content: space-between;
+  gap: 110px;
+  margin-left: 20px;
 }
 
-.user-ads {
-  width: 35%;
-  margin: 0 20px 0 20px;
-  padding: 2px;
-  border: 1px solid rgb(31, 131, 239);
-  height: 4vh;
+.in-btns {
+  background-color: rgb(121, 185, 244);
+  cursor: pointer;
+  width: 130px;
+  height: 5vh;
+  border: none;
+  font-size: 18px;
   border-radius: 4px;
 }
 
-.user-ads button {
-  width: 100%;
-  height: 100%;
-  background-color: rgb(111, 169, 239);
-  border: none;
-  cursor: pointer;
-  border-radius: 2px;
-  color: white;
-  font-size: 16px;
+.in-btns:hover {
+  text-decoration: underline;
 }
 
-.user-ads button:hover {
-  background-color: rgb(102, 162, 236);
+.edit-mobile-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: rgb(92, 92, 92);
+  margin-left: 10px;
+  width: 30px;
+  height: 30px;
+  transform: rotate(90deg);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 15px;
+  margin-left: 65px;
+}
+.edit-mobile-btn:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.mobile-edit-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 11px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.mobile-edit-input {
+  flex-grow: 1;
+  padding: 5px;
+  font-size: 18px;
+  border: 1px solid rgb(165, 163, 163);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.mobile-edit-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.save-mobile-btn,
+.cancel-mobile-btn {
+  padding: 5px 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.save-mobile-btn {
+  background-color: rgb(121, 185, 244);
+  color: white;
+}
+
+.cancel-mobile-btn {
+  background-color: #f0f0f0;
+  color: rgb(92, 92, 92);
 }
