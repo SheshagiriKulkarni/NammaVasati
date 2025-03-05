@@ -274,9 +274,28 @@ function Profile() {
               <ol>
                 {pgs.map((pg, index) => (
                   <li key={index} className="li-items">
-                    <span onClick={() => handleAdClick(pg._id)}>
-                      {pg.pgName}
-                    </span>
+                    <div className="pg-listing-container">
+                      <span
+                        className="pg-name"
+                        onClick={() => handleAdClick(pg._id)}
+                      >
+                        {pg.pgName}
+                      </span>
+                      <div className="pg-actions">
+                        <span
+                          className="edit-symbol"
+                          onClick={() => handleEditPg(pg._id)}
+                        >
+                          ✎
+                        </span>
+                        <span
+                          className="delete-symbol"
+                          onClick={() => handleDeletePg(pg._id)}
+                        >
+                          🗑️
+                        </span>
+                      </div>
+                    </div>
                   </li>
                 ))}
               </ol>
