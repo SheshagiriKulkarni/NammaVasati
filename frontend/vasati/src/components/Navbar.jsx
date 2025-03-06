@@ -48,8 +48,8 @@ function Navbar() {
               </Link>
             </li>
             <li>
-              <Link to="/about" className={isActive("/about")}>
-                Notifications
+              <Link to="/chatList" className={isActive("/chatList")}>
+                Messages
               </Link>
             </li>
             <li>
@@ -69,11 +69,6 @@ function Navbar() {
             <li>
               <Link to="/wishlist" className={isActive("/wishlist")}>
                 Wishlist
-              </Link>
-            </li>
-            <li>
-              <Link to="/chatList" className={isActive("/chatList")}>
-                Messages
               </Link>
             </li>
           </ul>
