@@ -11,7 +11,6 @@ import { FaHeart } from "react-icons/fa"; // Import heart icon
 import ChatModal from "./ChatModal";
 import "./ChatModal.css";
 
-
 function LandingPage() {
   const [selectedLocation, setSelectedLocation] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -44,7 +43,6 @@ function LandingPage() {
     setChatRoomId(null);
     setChatOwner(null);
   };
-
 
   useEffect(() => {
     fetchPGs();
@@ -230,7 +228,7 @@ function LandingPage() {
       alert("Please log in to chat.");
       return;
     }
-  
+
     try {
       await axios.post("http://localhost:5000/api/chat/send", {
         senderEmail: userEmail,
@@ -241,7 +239,7 @@ function LandingPage() {
       console.error("Error sending reservation message:", error);
     }
   };
-  
+
   return (
     <div className="container">
       <Navbar />
@@ -375,15 +373,15 @@ function LandingPage() {
                         : ad.locationName}
                     </p>
                     <div className="btns-in-card">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevent card click event
-                        openChat(ad.mailid); // Open chat
-                        sendReserveMessage(ad.mailid); // Send the reserve message
-                      }}
-                    >
-                      Reserve
-                    </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent card click event
+                          openChat(ad.mailid); // Open chat
+                          sendReserveMessage(ad.mailid); // Send the reserve message
+                        }}
+                      >
+                        Reserve
+                      </button>
 
                       <button
                         onClick={(e) => {
@@ -398,26 +396,29 @@ function LandingPage() {
                   </div>
                 </div>
               ))
-              
             ) : (
               <p>No PGs available</p>
             )}
           </div>
         </div>
-        {isChatOpen && <ChatModal roomId={chatRoomId} senderEmail={localStorage.getItem("userEmail")} receiverEmail={chatOwner} onClose={closeChat} />}
-
+        {isChatOpen && (
+          <ChatModal
+            roomId={chatRoomId}
+            senderEmail={localStorage.getItem("userEmail")}
+            receiverEmail={chatOwner}
+            onClose={closeChat}
+          />
+        )}
 
         <div className="search-in-map">
           <div className="description">
-            <p className="p-first">Search Your PG On the Map.</p>
-            <p className="p-second">
-              Find the PG you are looking for easily according to location
-              information.
+            <p className="p-first">
+              Search Your PG On the Map,&nbsp;Find the PG you are looking for
+              easily according to location information by clicking here 👉&nbsp;
             </p>
 
             <button onClick={() => navigate("/onmap")}>Search On Map</button>
           </div>
-          <div className="loc-img"></div>
         </div>
       </div>
 
