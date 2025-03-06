@@ -19,6 +19,8 @@ function LandingPage() {
   const [pgList, setPgList] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const navigate = useNavigate();
+  const [imageIndexes, setImageIndexes] = useState({});
+  const [activeImageIndex, setActiveImageIndex] = useState({});
 
   //Chat feature
   const [chatRoomId, setChatRoomId] = useState(null);
@@ -240,6 +242,26 @@ function LandingPage() {
     }
   };
 
+  const prevImage = (adId) => {
+    setActiveImageIndex((prevIndexes) => {
+      const currentIndex = prevIndexes[adId] || 0;
+      const newIndex =
+        currentIndex === 0
+          ? pgList.find((pg) => pg._id === adId).images.length - 1
+          : currentIndex - 1;
+      return { ...prevIndexes, [adId]: newIndex };
+    });
+  };
+
+  const nextImage = (adId) => {
+    setActiveImageIndex((prevIndexes) => {
+      const currentIndex = prevIndexes[adId] || 0;
+      const imagesCount = pgList.find((pg) => pg._id === adId).images.length;
+      const newIndex = (currentIndex + 1) % imagesCount;
+      return { ...prevIndexes, [adId]: newIndex };
+    });
+  };
+
   return (
     <div className="container">
       <Navbar />
@@ -309,7 +331,9 @@ function LandingPage() {
         <div className="featured-pg">
           <div className="pg-name">
             <p>Featured PGs</p>
-            <button onClick={handleAllClick}>All</button>
+            <p className="alllink" onClick={handleAllClick}>
+              Show All
+            </p>
           </div>
 
           <div className="pg-list">
@@ -323,14 +347,34 @@ function LandingPage() {
                   <div className="image-container">
                     {ad.images && ad.images.length > 0 ? (
                       <div className="image-slider">
+                        <button
+                          className="nav-button prev-button"
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent navigation
+                            prevImage(ad._id);
+                          }}
+                        >
+                          &#8249;
+                        </button>
                         {ad.images.map((image, index) => (
                           <img
                             key={index}
-                            src={`http://localhost:5000/api/advertise/images/${image}`}
+                            src={`http://localhost:5000/api/advertise/images/${
+                              ad.images[activeImageIndex[ad._id] || 0]
+                            }`}
                             alt={ad.pgName}
-                            className="pg-image"
+                            className="pg-images"
                           />
                         ))}
+                        <button
+                          className="nav-button next-button"
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent navigation
+                            nextImage(ad._id);
+                          }}
+                        >
+                          &#8250;
+                        </button>
                       </div>
                     ) : (
                       <img

@@ -24,6 +24,33 @@ function Profile() {
     setIsEditing(true);
   };
 
+  const handleDelete = async (adId) => {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this ad?"
+    );
+
+    if (!isConfirmed) return; // If the user cancels, do nothing
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/advertise/${adId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete the ad");
+      }
+
+      alert("Ad deleted successfully!");
+      window.location.reload(); // Refresh the page or navigate the user
+    } catch (error) {
+      console.error("Error deleting ad:", error);
+      alert("Failed to delete the ad. Please try again.");
+    }
+  };
+
   useEffect(() => {
     const fetchMobileNumber = async () => {
       if (!userEmail) {
@@ -284,13 +311,13 @@ function Profile() {
                       <div className="pg-actions">
                         <span
                           className="edit-symbol"
-                          onClick={() => handleEditPg(pg._id)}
+                          onClick={() => navigate(`/edit-ad/${pg._id}`)}
                         >
                           ✎
                         </span>
                         <span
                           className="delete-symbol"
-                          onClick={() => handleDeletePg(pg._id)}
+                          onClick={() => handleDelete(pg._id)}
                         >
                           🗑️
                         </span>
