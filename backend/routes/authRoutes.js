@@ -178,21 +178,22 @@ router.get("/profileImage/:email", async (req, res) => {
 });
 
 router.post("/signup", async (req, res) => {
-  const { email, password } = req.body;
+  const { SupEmail, mobileNumber, SupPassword } = req.body;
 
   try {
     // Check if user already exists
-    const userExists = await User.findOne({ email });
+    const userExists = await User.findOne({ SupEmail });
     if (userExists) {
       return res.status(400).json({ message: "User already exists" });
     }
 
     // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(SupPassword, 10);
 
     // Save the user to the database with joinedDate
     const newUser = new User({
-      email,
+      email: SupEmail,
+      number: mobileNumber,
       password: hashedPassword,
       joinedDate: new Date(), // ✅ Explicitly setting joinedDate
     });

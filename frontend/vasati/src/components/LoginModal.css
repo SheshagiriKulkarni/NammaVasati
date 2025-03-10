@@ -16,14 +16,15 @@
 .modal-content {
   background: white;
   padding: 0;
-  border-radius: 8px;
+  border-radius: 20px;
   width: 45vw;
-  height: 50vh;
+  height: 62vh;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
   position: relative;
   display: flex;
   overflow: hidden;
+  border: 0.5px solid white;
 }
 
 /* Close button */
@@ -48,24 +49,25 @@
 .modal-content .form-group form {
   margin: 4vh 2vw;
   display: flex;
+  margin-top: 1vh;
   flex-direction: column;
+  margin-bottom: 2vh;
 }
 
-.modal-content .form-group input {
+.modal-content .form-group .input {
   margin: 2vh 0;
   width: 100%;
   height: 6vh;
-  padding: 5px;
-  border-radius: 4px;
+  padding: 10px;
   box-sizing: border-box;
-  border: 1px solid gray;
+  border: 1px solid rgb(164, 164, 164);
   font-size: large;
+  margin-bottom: 1vh;
 }
 
-.modal-content .form-group input:focus {
+.modal-content .form-group .input:focus {
   outline: none;
-  border: 1px solid rgb(124, 194, 164);
-  box-shadow: 0 0 3px 1px rgb(124, 194, 164); /* Box shadow on all sides */
+  border: 1px solid rgb(229, 183, 99);
 }
 
 .modal-content .login-img {
@@ -77,10 +79,10 @@
   background-size: cover;
 }
 
-.modal-content .form-group button {
-  width: 80%;
-  height: 5vh;
-  margin-top: 4vh;
+.modal-content .form-group .login-submit {
+  width: 100%;
+  height: 6vh;
+  margin-top: 2vh;
   background-color: rgb(229, 183, 99);
   border: none;
   border-radius: 5px;
@@ -90,8 +92,50 @@
   cursor: pointer;
 }
 
-.modal-content .form-group button:hover {
+.modal-content .form-group .login-submit:hover {
   background-color: rgb(221, 154, 31);
+}
+
+.logo-sup {
+  height: 60px;
+  overflow: hidden;
+  margin-top: 3vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 2vw;
+  margin-right: 2vw;
+}
+
+.nv-img {
+  height: 60px;
+  width: 60px;
+}
+
+.sup-btn {
+  width: 115px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  align-items: center;
+  font-size: 16px;
+  background-color: rgb(229, 183, 99);
+  border-radius: 17.5px;
+  padding: 2px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.sup-btn:hover {
+  background-color: rgb(221, 154, 31);
+}
+
+.sup-btn svg {
+  width: 18px;
+}
+.sup-btn img {
+  width: 23px;
 }
 
 .error-message {
@@ -114,4 +158,196 @@
 
 .toggle-link:hover {
   text-decoration: underline;
+}
+
+.form-group .fp-cont {
+  display: flex;
+  justify-content: space-between;
+  height: 20px;
+  align-items: center;
+  box-sizing: border-box;
+  color: rgb(98, 97, 97);
+  font-size: 14px;
+  margin-top: 0.5vh;
+}
+
+.form-group .fp-cont .cb-cont {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  gap: 5px;
+}
+
+.form-group .fp-cont .cb-cont .cb {
+  height: 14px;
+  width: 14px;
+  border-radius: 0px;
+  margin: 0;
+}
+
+.form-group .fp-cont .fp {
+  cursor: pointer;
+}
+
+.form-group .fp-cont .fp:hover {
+  text-decoration: underline;
+}
+
+.form-group .or-cont {
+  display: flex;
+  justify-content: space-between;
+  height: 20px;
+  align-items: center;
+  box-sizing: border-box;
+  color: rgb(0, 0, 0);
+  font-size: 14px;
+  margin-bottom: 10px;
+  margin-left: 2vw;
+  margin-right: 2vw;
+}
+
+.form-group .or-cont .hr {
+  background-color: rgb(74, 74, 74);
+  height: 0.8px;
+  width: 45%;
+}
+
+.form-group .or-cont p {
+  margin: 0;
+  width: 10%;
+  text-align: center;
+  font-size: 15px;
+}
+
+.alt-signins {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.alt-signins p {
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.alt-signins .alt-btns {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 110px;
+  height: 40px;
+  background-color: rgb(236, 235, 235);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.alt-signins .alt-btns .goo {
+  font-size: large;
+  margin: 0;
+  width: 60px;
+}
+
+.alt-signins .alt-btns .sp-btns {
+  width: 30px;
+  height: 30px;
+}
+
+.alt-signins .alt-btns .sp-btns img {
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 15px;
+}
+
+.alt-signins .alt-btns .google img {
+  background-color: white;
+}
+
+.tc {
+  margin-left: 2vw;
+  margin-right: 2vw;
+  font-size: 11px;
+  color: gray;
+}
+
+.tc span {
+  text-decoration: underline;
+  cursor: pointer;
+  color: rgb(78, 78, 78);
+}
+
+.terms-div {
+  display: flex;
+  align-items: center;
+  height: 4vh;
+  justify-content: center;
+}
+
+.terms-div #remember {
+  height: 14px;
+  width: 14px;
+  margin: 0;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.terms-div .agree {
+  margin-bottom: 0px;
+  color: black;
+  font-weight: 500;
+  font-size: 14px;
+  margin: 0;
+  width: fit-content;
+}
+
+.signup-btn {
+  margin-bottom: 20px;
+}
+
+.terms-div .agree span {
+  color: rgb(3, 102, 250);
+  cursor: pointer;
+  margin-right: 1px;
+  margin-left: 1px;
+}
+
+.terms-div .agree span:hover {
+  text-decoration: underline;
+}
+
+.suggestions-dropdown {
+  position: absolute;
+  width: 100%;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.suggestion-item:hover {
+  background-color: #f3f4f6;
+}
+
+.suggestion-icon {
+  margin-right: 8px;
+  color: #666;
+}
+
+.email-class {
+  position: relative;
 }

@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   joinedDate: { type: Date, default: Date.now }, // ✅ Added joined date
   image: String,
   number: {
-    type: String,
+    type: Number,
     default: null,
     validate: {
       validator: function (v) {
