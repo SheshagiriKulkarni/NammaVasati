@@ -341,7 +341,7 @@
   display: flex;
   border: 1px solid gray;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   align-items: center;
   justify-content: center;
 }
