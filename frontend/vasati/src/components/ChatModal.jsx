@@ -1,6 +1,3 @@
-
-
-
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import socket from "./socket"; // Import shared WebSocket
@@ -29,13 +26,14 @@ function ChatModal({ roomId, senderEmail, receiverEmail, onClose }) {
 
     const handleReceiveMessage = (newMsg) => {
       if (
-        (newMsg.senderEmail === senderEmail && newMsg.receiverEmail === receiverEmail) ||
-        (newMsg.senderEmail === receiverEmail && newMsg.receiverEmail === senderEmail)
+        (newMsg.senderEmail === senderEmail &&
+          newMsg.receiverEmail === receiverEmail) ||
+        (newMsg.senderEmail === receiverEmail &&
+          newMsg.receiverEmail === senderEmail)
       ) {
         setMessages((prevMessages) => [...prevMessages, newMsg]);
       }
     };
-    
 
     socket.on("receiveMessage", handleReceiveMessage);
 
@@ -52,7 +50,12 @@ function ChatModal({ roomId, senderEmail, receiverEmail, onClose }) {
     if (!newMessage.trim()) return;
 
     try {
-      const msgData = { roomId, senderEmail, receiverEmail, message: newMessage };
+      const msgData = {
+        roomId,
+        senderEmail,
+        receiverEmail,
+        message: newMessage,
+      };
 
       await axios.post("http://localhost:5000/api/chat/send", msgData);
       socket.emit("sendMessage", msgData); // Emit real-time event
@@ -72,7 +75,12 @@ function ChatModal({ roomId, senderEmail, receiverEmail, onClose }) {
       </div>
       <div className="chat-body">
         {messages.map((msg, index) => (
-          <div key={index} className={`chat-message ${msg.senderEmail === senderEmail ? "sent" : "received"}`}>
+          <div
+            key={index}
+            className={`chat-message ${
+              msg.senderEmail === senderEmail ? "sent" : "received"
+            }`}
+          >
             <p>{msg.message}</p>
           </div>
         ))}

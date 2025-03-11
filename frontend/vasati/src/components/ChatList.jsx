@@ -1,9 +1,6 @@
-
-
-
 import { useEffect, useState } from "react";
 import axios from "axios";
-import socket from "./socket"; 
+import socket from "./socket";
 import ChatModal from "./ChatModal";
 import "./ChatList.css"; // Import CSS file
 
@@ -16,9 +13,12 @@ const ChatList = () => {
   useEffect(() => {
     const fetchConversations = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/chat/conversations/${userEmail}`, {
-          headers: { "Cache-Control": "no-cache" },
-        });
+        const response = await axios.get(
+          `http://localhost:5000/api/chat/conversations/${userEmail}`,
+          {
+            headers: { "Cache-Control": "no-cache" },
+          }
+        );
         setConversations(response.data);
       } catch (error) {
         console.error("Error fetching conversations:", error);
@@ -26,38 +26,41 @@ const ChatList = () => {
     };
 
     fetchConversations();
-    socket.connect(); 
+    socket.connect();
 
     const handleReceiveMessage = (newMessage) => {
       console.log("Received new message:", newMessage);
-      
+
       setConversations((prevConversations) => {
         let updatedConversations = prevConversations.map((chat) =>
-          (chat.senderEmail === newMessage.senderEmail && chat.receiverEmail === newMessage.receiverEmail) ||
-          (chat.senderEmail === newMessage.receiverEmail && chat.receiverEmail === newMessage.senderEmail)
+          (chat.senderEmail === newMessage.senderEmail &&
+            chat.receiverEmail === newMessage.receiverEmail) ||
+          (chat.senderEmail === newMessage.receiverEmail &&
+            chat.receiverEmail === newMessage.senderEmail)
             ? { ...chat, message: newMessage.message }
             : chat
         );
-    
+
         const isNewChat = !updatedConversations.some(
           (chat) =>
-            chat.senderEmail === newMessage.senderEmail && chat.receiverEmail === newMessage.receiverEmail
+            chat.senderEmail === newMessage.senderEmail &&
+            chat.receiverEmail === newMessage.receiverEmail
         );
-    
+
         if (isNewChat) {
           updatedConversations = [...updatedConversations, newMessage];
         }
-    
+
         return updatedConversations;
       });
     };
-    
+
     socket.on("receiveMessage", handleReceiveMessage);
 
     return () => {
       socket.off("receiveMessage", handleReceiveMessage);
     };
-  }, [userEmail]);  
+  }, [userEmail]);
 
   const handleSendReply = async (receiverEmail, event) => {
     event?.preventDefault();
@@ -86,11 +89,20 @@ const ChatList = () => {
         ) : (
           <ul className="chat-list">
             {conversations.map((chat, index) => {
-              const otherUser = chat.senderEmail === userEmail ? chat.receiverEmail : chat.senderEmail;
+              const otherUser =
+                chat.senderEmail === userEmail
+                  ? chat.receiverEmail
+                  : chat.senderEmail;
               return (
-                <li key={index} className="chat-item" onClick={() => setSelectedChat(otherUser)}>
-                  <span className="chat-user">{otherUser} : </span>
-                  <span> {chat.message}</span>
+                <li
+                  key={index}
+                  className={`chat-item ${
+                    selectedChat === otherUser ? "active" : ""
+                  }`}
+                  onClick={() => setSelectedChat(otherUser)}
+                >
+                  <span className="chat-user">{otherUser}</span>
+                  <span className="chat-preview">{chat.message}</span>
                 </li>
               );
             })}
