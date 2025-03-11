@@ -67,6 +67,10 @@ function LoginModal({ onClose, onLoginSuccess }) {
 
       // You can store just the email if that's what you need
       localStorage.setItem("userEmail", userEmail);
+      const token = await user.getIdToken();
+
+      // Store the token in localStorage
+      localStorage.setItem("authToken", token);
 
       // After successful Google sign-in, check if GitHub linking is possible
       const shouldLinkGithub = window.confirm(
