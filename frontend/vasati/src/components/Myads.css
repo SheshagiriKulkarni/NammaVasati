@@ -43,3 +43,32 @@
   background-size: 70%;
   border: 1px solid gray;
 }
+
+.no-pgs {
+  height: 500px;
+  box-sizing: border-box;
+}
+
+.back-img {
+  background-image: url("https://cdn.dribbble.com/users/453325/screenshots/5573953/empty_state.png");
+  height: 400px;
+  width: 500px;
+  background-position: center;
+  margin: auto;
+}
+
+.link {
+  text-align: center;
+  font-size: 30px;
+  margin: 0;
+  margin-top: 20px;
+}
+
+.link span {
+  color: rgb(16, 87, 239);
+  cursor: pointer;
+}
+
+.link span:hover {
+  text-decoration: underline;
+}

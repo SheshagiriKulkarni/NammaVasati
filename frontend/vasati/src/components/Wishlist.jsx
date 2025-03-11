@@ -324,9 +324,17 @@ function Wishlist() {
               </div>
             </div>
           ) : (
-            <p>
-              No PGs found. <a href="/advertise">Create an Ad</a>
-            </p>
+            <>
+              <div className="no-pgs">
+                <div className="back-img"></div>
+                <p className="link">
+                  <span onClick={() => navigate("/AllAddetails")}>
+                    Click Me
+                  </span>{" "}
+                  To Add Ads To Your Wishlist.
+                </p>
+              </div>
+            </>
           )}
         </div>
       </div>

@@ -333,9 +333,15 @@ function Myads() {
               </div>
             </div>
           ) : (
-            <p>
-              No PGs found. <a href="/advertise">Create an Ad</a>
-            </p>
+            <>
+              <div className="no-pgs">
+                <div className="back-img"></div>
+                <p className="link">
+                  <span onClick={() => navigate("/advertise")}>Click Me</span>{" "}
+                  To Post Your First Ad.
+                </p>
+              </div>
+            </>
           )}
         </div>
       </div>
