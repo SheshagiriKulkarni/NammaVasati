@@ -10,6 +10,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { FaHeart } from "react-icons/fa"; // Import heart icon
 import { FaEdit } from "react-icons/fa";
+import LoadingScreen from "./LoadingScreen";
 
 // Fix marker icon issue in Leaflet
 import markerIcon from "leaflet/dist/images/marker-icon.png";
@@ -97,6 +98,7 @@ function Myads() {
   const navigate = useNavigate();
   const [pgs, setPgs] = useState([]);
   const [wishlist, setWishlist] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
     const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
@@ -134,13 +136,16 @@ function Myads() {
       }
 
       try {
+        setLoading(true);
         const response = await axios.get(
           `http://localhost:5000/api/advertise/myads?email=${userEmail}`
         );
         setPgs(response.data.map((pg) => ({ ...pg, currentImageIndex: 0 })));
         setPgDetails(response.data);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching PG details:", error);
+        setLoading(false);
       }
     };
 
@@ -210,142 +215,153 @@ function Myads() {
 
   return (
     <div>
-      <Navbar />
-      <div className="myads-container">
-        <div className="filtered-pgs">
-          {pgs.length > 0 ? (
-            <div className="result-box">
-              <div className="content-real">
-                {pgs.map((ad) => (
-                  <div
-                    className="searched-pg"
-                    onMouseEnter={() =>
-                      setMapCenter([ad.latitude, ad.longitude])
-                    }
-                  >
-                    <div key={ad._id} className="image-content">
-                      {ad.images && ad.images.length > 0 ? (
-                        <>
-                          <button
-                            className="nav-button prev-button"
-                            onClick={() => prevImage(ad._id)}
-                          >
-                            &#8249;
-                          </button>
-                          <img
-                            src={`http://localhost:5000/api/advertise/images/${
-                              ad.images[ad.currentImageIndex]
+      {loading ? (
+        <LoadingScreen /> // Show loading screen when loading is true
+      ) : (
+        <>
+          <Navbar />
+          <div className="myads-container">
+            <div className="filtered-pgs">
+              {pgs.length > 0 ? (
+                <div className="result-box">
+                  <div className="content-real">
+                    {pgs.map((ad) => (
+                      <div
+                        className="searched-pg"
+                        onMouseEnter={() =>
+                          setMapCenter([ad.latitude, ad.longitude])
+                        }
+                      >
+                        <div key={ad._id} className="image-content">
+                          {ad.images && ad.images.length > 0 ? (
+                            <>
+                              <button
+                                className="nav-button prev-button"
+                                onClick={() => prevImage(ad._id)}
+                              >
+                                &#8249;
+                              </button>
+                              <img
+                                src={`http://localhost:5000/api/advertise/images/${
+                                  ad.images[ad.currentImageIndex]
+                                }`}
+                                alt={`PG Image ${ad.currentImageIndex + 1}`}
+                                className="ad-image"
+                              />
+                              <button
+                                className="nav-button next-button"
+                                onClick={() => nextImage(ad._id)}
+                              >
+                                &#8250;
+                              </button>
+                            </>
+                          ) : (
+                            <p>No images available</p>
+                          )}
+
+                          <FaHeart
+                            className={`wishlist-icon ${
+                              wishlist.includes(ad._id) ? "active" : ""
                             }`}
-                            alt={`PG Image ${ad.currentImageIndex + 1}`}
-                            className="ad-image"
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevent triggering card click
+                              toggleWishlist(ad._id);
+                            }}
                           />
-                          <button
-                            className="nav-button next-button"
-                            onClick={() => nextImage(ad._id)}
-                          >
-                            &#8250;
-                          </button>
-                        </>
-                      ) : (
-                        <p>No images available</p>
-                      )}
-
-                      <FaHeart
-                        className={`wishlist-icon ${
-                          wishlist.includes(ad._id) ? "active" : ""
-                        }`}
-                        onClick={(e) => {
-                          e.stopPropagation(); // Prevent triggering card click
-                          toggleWishlist(ad._id);
-                        }}
-                      />
-                    </div>
-                    <div
-                      className="about-ad"
-                      onClick={() => handleAdClick(ad._id)}
-                    >
-                      <div className="rowone">
-                        <div>
-                          <h3>{`${ad.pgName}`}</h3>
-                          <p title={ad.locationName}>
-                            {ad.locationName.length > 15
-                              ? ad.locationName.slice(0, 15) + "..."
-                              : ad.locationName}
-                          </p>
                         </div>
-                        <div>
-                          <GenderTag gender={ad.gender} />
+                        <div
+                          className="about-ad"
+                          onClick={() => handleAdClick(ad._id)}
+                        >
+                          <div className="rowone">
+                            <div>
+                              <h3>{`${ad.pgName}`}</h3>
+                              <p title={ad.locationName}>
+                                {ad.locationName.length > 15
+                                  ? ad.locationName.slice(0, 15) + "..."
+                                  : ad.locationName}
+                              </p>
+                            </div>
+                            <div>
+                              <GenderTag gender={ad.gender} />
+                            </div>
+                          </div>
+                          <div className="rowtwo">
+                            <p className="occupancy">
+                              <img
+                                class="occupancy-icon"
+                                src="https://res.cloudinary.com/stanza-living/image/upload/v1700809285/Website%20v5/Icons/tabler_bed.png"
+                              />
+                              {ad.occupancy}
+                            </p>
+                          </div>
+
+                          <div className="rowthree">
+                            <div>₹ {ad.price} / month</div>
+                            <button className="vi-btn">Schedule a Visit</button>
+                            <button className="ca-btn">
+                              Request a Callback
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                      <div className="rowtwo">
-                        <p className="occupancy">
-                          <img
-                            class="occupancy-icon"
-                            src="https://res.cloudinary.com/stanza-living/image/upload/v1700809285/Website%20v5/Icons/tabler_bed.png"
-                          />
-                          {ad.occupancy}
-                        </p>
-                      </div>
 
-                      <div className="rowthree">
-                        <div>₹ {ad.price} / month</div>
-                        <button className="vi-btn">Schedule a Visit</button>
-                        <button className="ca-btn">Request a Callback</button>
+                        <div
+                          className="edit-icon"
+                          onClick={() => navigate(`/edit-ad/${ad._id}`)}
+                        ></div>
+
+                        <div
+                          className="delete-icon"
+                          onClick={() => handleDelete(ad._id)}
+                        ></div>
                       </div>
-                    </div>
-
-                    <div
-                      className="edit-icon"
-                      onClick={() => navigate(`/edit-ad/${ad._id}`)}
-                    ></div>
-
-                    <div
-                      className="delete-icon"
-                      onClick={() => handleDelete(ad._id)}
-                    ></div>
+                    ))}
                   </div>
-                ))}
-              </div>
 
-              <div className="map-container">
-                <MapContainer
-                  center={mapCenter}
-                  zoom={15}
-                  className="leaflet-container"
-                >
-                  <ChangeMapCenter center={mapCenter} />
-                  <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                  {pgs.map((ad) => (
-                    <Marker
-                      key={ad._id}
-                      position={[ad.latitude, ad.longitude]}
-                      icon={customIcon}
+                  <div className="map-container">
+                    <MapContainer
+                      center={mapCenter}
+                      zoom={15}
+                      className="leaflet-container"
                     >
-                      <Popup>
-                        <strong>{ad.pgName}</strong>
-                        <br />
-                        {ad.locationName}
-                        <br />₹ {ad.price} / month
-                      </Popup>
-                    </Marker>
-                  ))}
-                </MapContainer>
-              </div>
+                      <ChangeMapCenter center={mapCenter} />
+                      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                      {pgs.map((ad) => (
+                        <Marker
+                          key={ad._id}
+                          position={[ad.latitude, ad.longitude]}
+                          icon={customIcon}
+                        >
+                          <Popup>
+                            <strong>{ad.pgName}</strong>
+                            <br />
+                            {ad.locationName}
+                            <br />₹ {ad.price} / month
+                          </Popup>
+                        </Marker>
+                      ))}
+                    </MapContainer>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="no-pgs">
+                    <div className="back-img"></div>
+                    <p className="link">
+                      <span onClick={() => navigate("/advertise")}>
+                        Click Me
+                      </span>{" "}
+                      To Post Your First Ad.
+                    </p>
+                  </div>
+                </>
+              )}
             </div>
-          ) : (
-            <>
-              <div className="no-pgs">
-                <div className="back-img"></div>
-                <p className="link">
-                  <span onClick={() => navigate("/advertise")}>Click Me</span>{" "}
-                  To Post Your First Ad.
-                </p>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-      <Footer />
+          </div>
+
+          <Footer />
+        </>
+      )}
     </div>
   );
 }
