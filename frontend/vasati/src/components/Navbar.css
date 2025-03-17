@@ -10,17 +10,22 @@
   box-sizing: border-box;
   font-size: large;
   border-bottom: 1px solid rgb(192, 190, 190);
+  padding-left: 3vw;
+  padding-right: 3vw;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: white;
 }
 
 .first {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  gap: 8vw;
   padding: 0;
   margin: 0;
   height: max-content;
   width: 50vw;
-  flex-wrap: wrap;
 }
 
 .navbar .logoholder {
@@ -73,10 +78,18 @@ ul {
   color: black;
 }
 
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+}
+
 .second {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   width: 50vw;
 }
 
@@ -103,7 +116,7 @@ ul {
   font-weight: 300;
   color: rgb(78, 75, 75);
   margin-right: 2vw;
-  margin-left: 25vw;
+  margin-left: auto;
   transition: all 0.3s ease-in-out;
 }
 
@@ -139,4 +152,68 @@ ul {
 .navbar li .active-link {
   color: black !important;
   text-decoration: underline;
+}
+
+@media screen and (max-width: 500px) {
+  /* Hide navigation links by default */
+  .first {
+    width: 100%;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .navbar .logoholder {
+    gap: 1vw;
+  }
+
+  /* Update these CSS rules for a floating dropdown */
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 8vh; /* Position it right below the navbar */
+    right: 0; /* Align to the right where hamburger is */
+    width: 200px; /* Fixed width instead of full width */
+    background-color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 10px 0;
+    text-align: center;
+    z-index: 1000; /* Ensure it appears above other content */
+  }
+
+  /* Show the dropdown when menuOpen is true */
+  .navbar-links.open {
+    display: flex;
+    z-index: 1000;
+  }
+
+  /* Style each link in dropdown */
+  .navbar-links li {
+    margin: 0;
+    width: 100%;
+  }
+
+  .navbar-links li a {
+    color: gray;
+    display: block;
+    padding: 12px 20px;
+    text-align: left;
+    transition: background-color 0.2s;
+  }
+
+  .navbar-links li a:hover {
+    background-color: #f5f5f5;
+  }
+
+  /* Show the dropdown when menuOpen is true */
+
+  /* Show the hamburger menu button */
+  .hamburger {
+    display: block;
+  }
+
+  .second {
+    display: none;
+  }
 }

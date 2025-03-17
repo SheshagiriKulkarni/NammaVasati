@@ -9,6 +9,7 @@ function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false); // Tracks modal
   // visibility
+  const [menuOpen, setMenuOpen] = useState(false); // Hamburger menu state
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -41,20 +42,36 @@ function Navbar() {
             <h1>NammaVasati</h1>
           </div>
 
-          <ul className="navbar-links">
+          <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+            ☰
+          </button>
+
+          <ul className={`navbar-links ${menuOpen ? "open" : ""}`}>
             <li>
-              <Link to="/" className={isActive("/")}>
+              <Link
+                to="/"
+                className={isActive("/")}
+                onClick={() => setMenuOpen(false)}
+              >
                 Home
               </Link>
             </li>
             <li>
-              <Link to="/chatList" className={isActive("/chatList")}>
+              <Link
+                to="/chatList"
+                className={isActive("/chatList")}
+                onClick={() => setMenuOpen(false)}
+              >
                 Messages
               </Link>
             </li>
             <li>
               {localStorage.getItem("userEmail") ? (
-                <Link to="/myads" className={isActive("/myads")}>
+                <Link
+                  to="/myads"
+                  className={isActive("/myads")}
+                  onClick={() => setMenuOpen(false)}
+                >
                   My Ads
                 </Link>
               ) : (
@@ -67,12 +84,17 @@ function Navbar() {
               )}
             </li>
             <li>
-              <Link to="/wishlist" className={isActive("/wishlist")}>
+              <Link
+                to="/wishlist"
+                className={isActive("/wishlist")}
+                onClick={() => setMenuOpen(false)}
+              >
                 Wishlist
               </Link>
             </li>
           </ul>
         </div>
+
         <div className="second">
           <button className="ad" onClick={() => navigate("/advertise")}>
             Advertise

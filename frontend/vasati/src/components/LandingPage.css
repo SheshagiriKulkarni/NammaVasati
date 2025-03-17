@@ -370,3 +370,59 @@
 .search-in-map .description button:hover {
   background-color: rgb(246, 7, 7);
 }
+
+@media screen and (max-width: 500px) {
+  .banner {
+    height: 35vh;
+  }
+
+  .search-holder {
+    width: 70%;
+  }
+
+  .search-holder p {
+    color: white;
+    font-size: 25px;
+    font-weight: 400;
+    margin: 20px 5px;
+    text-align: center;
+  }
+
+  .search-input {
+    height: 4.5vh;
+  }
+
+  .search-input input {
+    width: 75%;
+    height: 4vh;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 4px;
+    margin: 2px;
+    border: none;
+    overflow-x: "auto";
+    font-size: medium;
+  }
+  .sea-btns {
+    width: 25%;
+  }
+
+  .search-in-map {
+    height: 7vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .search-in-map .description .p-first {
+    display: none; /* Hide full text */
+  }
+
+  .search-in-map .description button {
+    width: auto;
+    height: auto;
+    font-size: 16px;
+    padding: 8px 12px;
+    margin-top: 5px;
+  }
+}
