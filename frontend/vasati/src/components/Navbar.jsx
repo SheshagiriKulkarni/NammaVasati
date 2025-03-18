@@ -22,6 +22,7 @@ function Navbar() {
 
   const handleLoginClick = () => {
     setShowLoginModal(true); // Show the modal
+    setMenuOpen(false);
   };
 
   const handleCloseModal = () => {
@@ -66,22 +67,13 @@ function Navbar() {
               </Link>
             </li>
             <li>
-              {localStorage.getItem("userEmail") ? (
-                <Link
-                  to="/myads"
-                  className={isActive("/myads")}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  My Ads
-                </Link>
-              ) : (
-                <Link
-                  to="#"
-                  onClick={() => alert("Please log in to access My Ads")}
-                >
-                  My Ads
-                </Link>
-              )}
+              <Link
+                to="/myads"
+                className={isActive("/myads")}
+                onClick={() => setMenuOpen(false)}
+              >
+                My Ads
+              </Link>
             </li>
             <li>
               <Link
@@ -114,7 +106,9 @@ function Navbar() {
               </li>
             ) : (
               <li className="spe-li">
-                <Link onClick={handleLoginClick}>Login</Link>
+                <Link onClick={handleLoginClick} className={isActive("/login")}>
+                  Login
+                </Link>
               </li>
             )}
           </ul>

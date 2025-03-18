@@ -72,3 +72,13 @@
 .link span:hover {
   text-decoration: underline;
 }
+
+.log-back-img {
+  background-image: url("https://thumbs.dreamstime.com/b/doodle-profile-username-password-login-register-online-device-337464638.jpg");
+  height: 400px;
+  width: 500px;
+  background-position: center;
+  background-size: 80%;
+  background-repeat: no-repeat;
+  margin: auto;
+}
