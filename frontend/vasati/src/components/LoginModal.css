@@ -356,6 +356,7 @@
   .modal-content {
     width: 95%;
     border-radius: 10px;
+    overflow: visible;
   }
 
   .modal-content .form-group {
@@ -364,5 +365,10 @@
 
   .modal-content .login-img {
     display: none;
+  }
+
+  .close-btn {
+    top: -16px;
+    right: -5px;
   }
 }
