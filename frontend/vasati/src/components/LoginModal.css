@@ -351,3 +351,18 @@
 .email-class {
   position: relative;
 }
+
+@media screen and (max-width: 500px) {
+  .modal-content {
+    width: 95%;
+    border-radius: 10px;
+  }
+
+  .modal-content .form-group {
+    width: 100%;
+  }
+
+  .modal-content .login-img {
+    display: none;
+  }
+}

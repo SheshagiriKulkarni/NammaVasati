@@ -92,6 +92,31 @@ function Navbar() {
                 Wishlist
               </Link>
             </li>
+
+            <li className="spe-li">
+              <Link
+                to="/advertise"
+                className={isActive("/advertise")}
+                onClick={() => setMenuOpen(false)}
+              >
+                Advertise
+              </Link>
+            </li>
+            {isLoggedIn ? (
+              <li className="spe-li">
+                <Link
+                  to="/profile"
+                  className={isActive("/profile")}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Profile
+                </Link>
+              </li>
+            ) : (
+              <li className="spe-li">
+                <Link onClick={handleLoginClick}>Login</Link>
+              </li>
+            )}
           </ul>
         </div>
 

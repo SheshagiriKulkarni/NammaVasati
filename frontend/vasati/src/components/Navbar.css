@@ -150,8 +150,12 @@ ul {
 }
 
 .navbar li .active-link {
-  color: black !important;
+  color: black;
   text-decoration: underline;
+}
+
+.spe-li {
+  display: None;
 }
 
 @media screen and (max-width: 500px) {
@@ -176,10 +180,10 @@ ul {
     width: 200px; /* Fixed width instead of full width */
     background-color: white;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    padding: 10px 0;
+    padding: 0;
     text-align: center;
     z-index: 1000; /* Ensure it appears above other content */
+    overflow: hidden;
   }
 
   /* Show the dropdown when menuOpen is true */
@@ -206,6 +210,28 @@ ul {
     background-color: #f5f5f5;
   }
 
+  .navbar-links.open li {
+    height: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .navbar-links.open li a {
+    height: 100%;
+    padding: 2px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .navbar-links.open li .active-link {
+    text-decoration: none;
+    background-color: rgb(62, 61, 61);
+    color: white;
+  }
+
   /* Show the dropdown when menuOpen is true */
 
   /* Show the hamburger menu button */
@@ -215,5 +241,8 @@ ul {
 
   .second {
     display: none;
+  }
+  .spe-li {
+    display: block;
   }
 }
