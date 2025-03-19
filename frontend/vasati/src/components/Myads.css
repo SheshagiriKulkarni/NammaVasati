@@ -82,3 +82,18 @@
   background-repeat: no-repeat;
   margin: auto;
 }
+
+@media screen and (max-width: 500px) {
+  .log-back-img {
+    height: 300px;
+    width: 350px;
+  }
+
+  .link {
+    font-size: 25px;
+  }
+
+  .no-pgs {
+    height: 450px;
+  }
+}

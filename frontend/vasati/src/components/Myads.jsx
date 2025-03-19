@@ -102,6 +102,9 @@ function Myads() {
   const [loading, setLoading] = useState(false); // Add loading state
   const userEmail = localStorage.getItem("userEmail");
   const [showLoginModal, setShowLoginModal] = useState(false); // Tracks modal
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    !!localStorage.getItem("userEmail")
+  );
 
   useEffect(() => {
     const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
@@ -110,7 +113,6 @@ function Myads() {
 
   const handleLoginClick = () => {
     setShowLoginModal(true); // Show the modal
-    setMenuOpen(false);
   };
 
   const handleCloseModal = () => {
@@ -120,6 +122,7 @@ function Myads() {
   const handleLoginSuccess = (email) => {
     localStorage.setItem("userEmail", email); // Store user email in localStorage
     setIsLoggedIn(true);
+    window.location.reload();
   };
 
   const toggleWishlist = async (adId) => {

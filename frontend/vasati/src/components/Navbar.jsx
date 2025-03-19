@@ -34,6 +34,22 @@ function Navbar() {
     setIsLoggedIn(true);
   };
 
+  const handleLogOut = () => {
+    // Clear all authentication-related items from localStorage
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("wishlist");
+    // Add any other items that need to be cleared
+
+    // Optional: Show a logout message
+    alert("Logged out successfully");
+
+    window.location.reload();
+
+    // Redirect to the login page or home page
+    navigate("/"); // or navigate("/") for home page
+  };
+
   return (
     <>
       <nav className="navbar">
@@ -125,6 +141,12 @@ function Navbar() {
           ) : (
             <button className="login" onClick={handleLoginClick}>
               Login
+            </button>
+          )}
+
+          {isLoggedIn && (
+            <button className="logout" onClick={handleLogOut}>
+              Logout
             </button>
           )}
         </div>

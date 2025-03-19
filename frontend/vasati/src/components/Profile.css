@@ -331,3 +331,93 @@
 .delete-symbol:hover {
   color: red;
 }
+
+@media screen and (max-width: 500px) {
+  .box-container .main-cont {
+    height: 800px;
+    border: none;
+    border-radius: 10px;
+    width: 350px;
+    padding: 10px;
+    flex-direction: column;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .ads {
+    padding-left: 10px;
+  }
+
+  .box-container .main-cont .left-cont {
+    width: 325px;
+  }
+
+  .box-container .main-cont .right-cont {
+    width: 325px;
+    height: max-content;
+    height: 360px;
+  }
+
+  .btns {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .post-ad {
+    font-size: 15px;
+    padding-left: 10px;
+  }
+
+  .para {
+    min-width: 225px;
+  }
+
+  .mob-no {
+    margin-top: 10px;
+    font-size: 16px;
+
+    padding-left: 10px;
+  }
+
+  .edit-mobile-btn {
+    font-size: 15px;
+    margin-left: 10px;
+    width: 25px;
+    height: 25px;
+    margin-left: 50px;
+  }
+
+  .pg-name {
+    min-width: 204px;
+  }
+
+  .outer-btns {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    margin-left: 10px;
+  }
+
+  .ads .head {
+    font-size: 20px;
+  }
+
+  .edit-image-btn {
+    right: 65px;
+  }
+
+  .mobile-edit-input {
+    font-size: 12px;
+  }
+
+  .mobile-edit-container {
+    margin-bottom: 10px;
+  }
+
+  .post-ad .first-p {
+    margin-top: 8px;
+  }
+}
