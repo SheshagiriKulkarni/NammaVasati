@@ -21,6 +21,7 @@ function LandingPage() {
   const navigate = useNavigate();
   const [imageIndexes, setImageIndexes] = useState({});
   const [activeImageIndex, setActiveImageIndex] = useState({});
+  const userEmail = localStorage.getItem("userEmail");
 
   //Chat feature
   const [chatRoomId, setChatRoomId] = useState(null);
@@ -50,6 +51,10 @@ function LandingPage() {
     fetchPGs();
     fetchWishlist();
   }, []);
+
+  useEffect(() => {
+    fetchWishlist();
+  }, [userEmail]);
 
   const fetchWishlist = async () => {
     const userEmail = localStorage.getItem("userEmail");

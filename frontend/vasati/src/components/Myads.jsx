@@ -379,7 +379,7 @@ function Myads() {
               </div>
             </div>
           ) : (
-            <div className="no-pgs">
+            <div className="login-no-pgs">
               <div className="log-back-img"></div>
               <p className="link">
                 <span onClick={handleLoginClick}>Log In</span> To Access The

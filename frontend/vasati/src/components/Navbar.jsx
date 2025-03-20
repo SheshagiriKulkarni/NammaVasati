@@ -43,6 +43,7 @@ function Navbar() {
 
     // Optional: Show a logout message
     alert("Logged out successfully");
+    setMenuOpen(false);
 
     window.location.reload();
 
@@ -111,15 +112,22 @@ function Navbar() {
               </Link>
             </li>
             {isLoggedIn ? (
-              <li className="spe-li">
-                <Link
-                  to="/profile"
-                  className={isActive("/profile")}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  Profile
-                </Link>
-              </li>
+              <>
+                <li className="spe-li">
+                  <Link
+                    to="/profile"
+                    className={isActive("/profile")}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Profile
+                  </Link>
+                </li>
+                <li className="spe-li">
+                  <Link className={isActive("/logout")} onClick={handleLogOut}>
+                    Logout
+                  </Link>
+                </li>
+              </>
             ) : (
               <li className="spe-li">
                 <Link onClick={handleLoginClick} className={isActive("/login")}>
