@@ -126,3 +126,75 @@
     background-color: white;
   }
 }
+
+@media screen and (max-width: 600px) {
+  .result-box {
+    padding: 10px;
+  }
+
+  .searched-pg {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .ad-image {
+    height: 100%;
+    width: 100%;
+  }
+  .about-ad {
+    text-align: center;
+  }
+
+  .wishlist-icon {
+    font-size: 18px;
+  }
+
+  .vi-btn,
+  .ca-btn {
+    font-size: 12px;
+    padding: 6px 10px;
+    width: 90%;
+  }
+
+  .map-container {
+    display: none;
+  }
+
+  .image-content {
+    width: 100%;
+  }
+  .filtered-pgs .image-content {
+    width: 100%;
+  }
+
+  .filtered-pgs .content-real {
+    width: 100%;
+  }
+
+  .filtered-pgs .searched-pg .about-ad {
+    width: 100%;
+  }
+
+  .filtered-pgs .searched-pg .about-ad .rowone {
+    margin-right: 20px;
+  }
+
+  .filtered-pgs .searched-pg .about-ad .rowthree {
+    margin-right: 20px;
+  }
+
+  .filtered-pgs .searched-pg .about-ad .rowthree .vi-btn {
+    width: 90px;
+    font-size: 15px;
+  }
+
+  .filtered-pgs .searched-pg .about-ad .rowthree .ca-btn {
+    width: 90px;
+    font-size: 15px;
+  }
+  .filtered-pgs .searched-pg {
+    min-height: 100%;
+  }
+}

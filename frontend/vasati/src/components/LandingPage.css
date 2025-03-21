@@ -200,6 +200,7 @@
 
 .featured-pg .pg-name .alllink:hover {
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .pg-list {

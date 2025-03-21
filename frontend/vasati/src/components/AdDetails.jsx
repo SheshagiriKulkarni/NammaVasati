@@ -78,70 +78,148 @@ function AdDetails() {
     }
   };
 
-  if (loading) return <p>Loading ad details...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading)
+    return <p className="ad-details-loading">Loading ad details...</p>;
+  if (error) return <p className="ad-details-loading">{error}</p>;
 
   return (
-    <div className="advertise-page-cont">
+    <>
       <Navbar />
-      <div className="ad-title">
-        <h1>{ad.pgName}</h1>
-        <div className="title-btns">
-          <button onClick={() => { openChat(ad.mailid); sendReserveMessage(ad.mailid); }}>Reserve</button>
-          <div className="callback" onClick={() => openChat(ad.mailid)}>
-            <img src="https://cdn-icons-png.flaticon.com/512/5585/5585856.png" alt="Callback" />
-            Request a Call back
-          </div>
-        </div>
-      </div>
-
-      <div className="ad-content">
-        <div className="image-content">
-          {ad.images && ad.images.length > 0 ? (
-            <>
-              <button className="nav-button prev-button" onClick={() => setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? ad.images.length - 1 : prevIndex - 1))}>
-                &#8249;
-              </button>
+      <div className="ad-details-container">
+        <div className="ad-details-header">
+          <h1 className="ad-details-title">{ad.pgName}</h1>
+          <div className="ad-details-actions">
+            <button
+              className="ad-details-reserve-btn"
+              onClick={() => {
+                openChat(ad.mailid);
+                sendReserveMessage(ad.mailid);
+              }}
+            >
+              Reserve
+            </button>
+            <div
+              className="ad-details-callback"
+              onClick={() => openChat(ad.mailid)}
+            >
               <img
-                src={`http://localhost:5000/api/advertise/images/${ad.images[currentImageIndex]}`}
-                alt={`PG Image ${currentImageIndex + 1}`}
-                className="ad-image"
+                className="ad-details-callback-icon"
+                src="https://cdn-icons-png.flaticon.com/512/5585/5585856.png"
+                alt="Callback"
               />
-              <button className="nav-button next-button" onClick={() => setCurrentImageIndex((prevIndex) => (prevIndex === ad.images.length - 1 ? 0 : prevIndex + 1))}>
-                &#8250;
-              </button>
-            </>
-          ) : (
-            <p>No images available</p>
-          )}
-        </div>
-
-        <div className="real-content">
-          <div className="map-container">
-            <MapContainer center={[ad.latitude, ad.longitude]} zoom={13} style={{ height: "100%", width: "100%" }} key={`${ad.latitude}-${ad.longitude}`}>
-              <MapResizer />
-              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-              <Marker position={[ad.latitude, ad.longitude]} icon={customIcon}>
-                <Popup>{ad.locationName || "Selected Location"}</Popup>
-              </Marker>
-            </MapContainer>
-          </div>
-          <div className="input-container">
-            <div className="ad-details-box">
-              <div className="ad-detail"><strong>PG Name:</strong> <span>{ad.pgName}</span></div>
-              <div className="ad-detail"><strong>Price:</strong> <span>₹{ad.price}</span></div>
-              <div className="ad-detail"><strong>Location:</strong> <span>{ad.locationName}</span></div>
-              <div className="ad-detail"><strong>Gender Preference:</strong> <span>{ad.gender}</span></div>
-              <div className="ad-detail"><strong>Occupancy:</strong> <span>{ad.occupancy}</span></div>
-              <div className="ad-detail"><strong>Amenities:</strong> <span>{ad.amenities.join(", ")}</span></div>
-              <div className="ad-detail"><strong>Description:</strong> <span>{ad.description}</span></div>
+              Request a Call back
             </div>
           </div>
         </div>
+
+        <div className="ad-details-content">
+          <div className="ad-details-gallery">
+            {ad.images && ad.images.length > 0 ? (
+              <>
+                <button
+                  className="ad-details-nav-button ad-details-prev-button"
+                  onClick={() =>
+                    setCurrentImageIndex((prevIndex) =>
+                      prevIndex === 0 ? ad.images.length - 1 : prevIndex - 1
+                    )
+                  }
+                >
+                  &#8249;
+                </button>
+                <img
+                  src={`http://localhost:5000/api/advertise/images/${ad.images[currentImageIndex]}`}
+                  alt={`PG Image ${currentImageIndex + 1}`}
+                  className="ad-details-image"
+                />
+                <button
+                  className="ad-details-nav-button ad-details-next-button"
+                  onClick={() =>
+                    setCurrentImageIndex((prevIndex) =>
+                      prevIndex === ad.images.length - 1 ? 0 : prevIndex + 1
+                    )
+                  }
+                >
+                  &#8250;
+                </button>
+              </>
+            ) : (
+              <p>No images available</p>
+            )}
+          </div>
+
+          <div className="ad-details-info-section">
+            <div className="ad-details-map-wrapper">
+              <MapContainer
+                center={[ad.latitude, ad.longitude]}
+                zoom={13}
+                style={{ height: "100%", width: "100%" }}
+                key={`${ad.latitude}-${ad.longitude}`}
+              >
+                <MapResizer />
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                <Marker
+                  position={[ad.latitude, ad.longitude]}
+                  icon={customIcon}
+                >
+                  <Popup>{ad.locationName || "Selected Location"}</Popup>
+                </Marker>
+              </MapContainer>
+            </div>
+            <div className="ad-details-info-wrapper">
+              <div className="ad-details-info-box">
+                <div className="ad-details-info-item">
+                  <strong className="ad-details-info-label">PG Name:</strong>
+                  <span className="ad-details-info-value">{ad.pgName}</span>
+                </div>
+                <div className="ad-details-info-item">
+                  <strong className="ad-details-info-label">Price:</strong>
+                  <span className="ad-details-info-value">₹{ad.price}</span>
+                </div>
+                <div className="ad-details-info-item">
+                  <strong className="ad-details-info-label">Location:</strong>
+                  <span className="ad-details-info-value">
+                    {ad.locationName}
+                  </span>
+                </div>
+                <div className="ad-details-info-item">
+                  <strong className="ad-details-info-label">
+                    Gender Preference:
+                  </strong>
+                  <span className="ad-details-info-value">{ad.gender}</span>
+                </div>
+                <div className="ad-details-info-item">
+                  <strong className="ad-details-info-label">Occupancy:</strong>
+                  <span className="ad-details-info-value">{ad.occupancy}</span>
+                </div>
+                <div className="ad-details-info-item">
+                  <strong className="ad-details-info-label">Amenities:</strong>
+                  <span className="ad-details-info-value">
+                    {ad.amenities.join(", ")}
+                  </span>
+                </div>
+                <div className="ad-details-info-item">
+                  <strong className="ad-details-info-label">
+                    Description:
+                  </strong>
+                  <span className="ad-details-info-value">
+                    {ad.description}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {isChatOpen && (
+          <ChatModal
+            roomId={chatRoomId}
+            senderEmail={localStorage.getItem("userEmail")}
+            receiverEmail={chatOwner}
+            onClose={() => setIsChatOpen(false)}
+          />
+        )}
       </div>
-      {isChatOpen && <ChatModal roomId={chatRoomId} senderEmail={localStorage.getItem("userEmail")} receiverEmail={chatOwner} onClose={() => setIsChatOpen(false)} />}
       <Footer />
-    </div>
+    </>
   );
 }
 
