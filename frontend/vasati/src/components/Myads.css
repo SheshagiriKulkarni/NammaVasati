@@ -48,6 +48,8 @@
 .no-pgs {
   height: 500px;
   box-sizing: border-box;
+
+  background-color: white;
 }
 
 .back-img {
@@ -121,5 +123,6 @@
 
   .login-no-pgs {
     height: 450px;
+    background-color: white;
   }
 }

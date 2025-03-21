@@ -25,7 +25,7 @@
   padding: 0;
   margin: 0;
   height: max-content;
-  width: 50vw;
+  width: 70vw;
 }
 
 .navbar .logoholder {
@@ -72,6 +72,7 @@ ul {
 .navbar li a {
   text-decoration: none;
   color: gray;
+  display: flex;
 }
 
 .navbar li a:hover {
@@ -90,7 +91,7 @@ ul {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  width: 50vw;
+  width: 30vw;
 }
 
 .second button {
@@ -98,7 +99,6 @@ ul {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  width: 6vw;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -152,7 +152,6 @@ ul {
 
 .navbar li .active-link {
   color: black;
-  text-decoration: underline;
 }
 
 .spe-li {
@@ -169,6 +168,24 @@ ul {
 .second .logout:hover {
   font-weight: 400;
   color: rgb(0, 0, 0);
+}
+
+.nav-icon {
+  margin-right: 5px;
+  font-size: 1em;
+  vertical-align: middle;
+}
+
+.navbar-links li a .nav-icon,
+.second button .nav-icon {
+  color: inherit;
+}
+
+/* For buttons in the second div */
+.second button .nav-icon {
+  margin-right: 5px;
+  vertical-align: middle;
+  font-size: 1.2em;
 }
 
 @media screen and (max-width: 500px) {
@@ -235,8 +252,8 @@ ul {
     padding: 2px;
     width: 100%;
     display: flex;
-    justify-content: center;
     align-items: center;
+    padding-left: 10px;
   }
 
   .navbar-links.open li .active-link {

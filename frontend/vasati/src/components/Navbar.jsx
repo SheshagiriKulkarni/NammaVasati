@@ -4,6 +4,11 @@ import { Link } from "react-router-dom";
 import "./Navbar.css";
 import "@fontsource/roboto";
 import LoginModal from "./LoginModal"; // Import the modal component
+// Import icons from a library like react-icons
+import { AiFillHome, AiOutlineMessage, AiOutlineHeart } from "react-icons/ai";
+import { BsFillFileEarmarkPostFill, BsFillPersonFill } from "react-icons/bs";
+import { MdOutlineLogout, MdLogin } from "react-icons/md";
+import { FaAd } from "react-icons/fa";
 
 function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -71,7 +76,7 @@ function Navbar() {
                 className={isActive("/")}
                 onClick={() => setMenuOpen(false)}
               >
-                Home
+                <AiFillHome className="nav-icon" /> Home
               </Link>
             </li>
             <li>
@@ -80,7 +85,7 @@ function Navbar() {
                 className={isActive("/chatList")}
                 onClick={() => setMenuOpen(false)}
               >
-                Messages
+                <AiOutlineMessage className="nav-icon" /> Messages
               </Link>
             </li>
             <li>
@@ -89,7 +94,7 @@ function Navbar() {
                 className={isActive("/myads")}
                 onClick={() => setMenuOpen(false)}
               >
-                My Ads
+                <BsFillFileEarmarkPostFill className="nav-icon" /> My Ads
               </Link>
             </li>
             <li>
@@ -98,7 +103,7 @@ function Navbar() {
                 className={isActive("/wishlist")}
                 onClick={() => setMenuOpen(false)}
               >
-                Wishlist
+                <AiOutlineHeart className="nav-icon" /> Wishlist
               </Link>
             </li>
 
@@ -108,7 +113,7 @@ function Navbar() {
                 className={isActive("/advertise")}
                 onClick={() => setMenuOpen(false)}
               >
-                Advertise
+                <FaAd className="nav-icon" /> Advertise
               </Link>
             </li>
             {isLoggedIn ? (
@@ -119,19 +124,19 @@ function Navbar() {
                     className={isActive("/profile")}
                     onClick={() => setMenuOpen(false)}
                   >
-                    Profile
+                    <BsFillPersonFill className="nav-icon" /> Profile
                   </Link>
                 </li>
                 <li className="spe-li">
                   <Link className={isActive("/logout")} onClick={handleLogOut}>
-                    Logout
+                    <MdOutlineLogout className="nav-icon" /> Logout
                   </Link>
                 </li>
               </>
             ) : (
               <li className="spe-li">
                 <Link onClick={handleLoginClick} className={isActive("/login")}>
-                  Login
+                  <MdLogin className="nav-icon" /> Login
                 </Link>
               </li>
             )}
@@ -140,21 +145,21 @@ function Navbar() {
 
         <div className="second">
           <button className="ad" onClick={() => navigate("/advertise")}>
-            Advertise
+            <FaAd className="nav-icon" /> Advertise
           </button>
           {isLoggedIn ? (
             <button className="pro" onClick={() => navigate("/profile")}>
-              Profile
+              <BsFillPersonFill className="nav-icon" /> Profile
             </button>
           ) : (
             <button className="login" onClick={handleLoginClick}>
-              Login
+              <MdLogin className="nav-icon" /> Login
             </button>
           )}
 
           {isLoggedIn && (
             <button className="logout" onClick={handleLogOut}>
-              Logout
+              <MdOutlineLogout className="nav-icon" /> Logout
             </button>
           )}
         </div>
