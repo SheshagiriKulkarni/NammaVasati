@@ -352,6 +352,60 @@
   position: relative;
 }
 
+.email-sup-class {
+  position: relative;
+}
+
+.pw-container {
+  position: relative;
+}
+
+.eye-btn {
+  position: absolute;
+  top: 60%; /* Centers vertically */
+  right: 10px; /* Positions from the right side */
+  transform: translateY(-50%); /* Adjusts for precise vertical centering */
+  cursor: pointer; /* Changes cursor to indicate it's clickable */
+  background: none; /* Removes default button styling */
+  border: none; /* Removes border */
+  padding: 0; /* Removes default padding */
+}
+
+.mail-btn {
+  position: absolute;
+  top: 55%; /* Centers vertically */
+  right: 10px; /* Positions from the right side */
+  transform: translateY(-50%); /* Adjusts for precise vertical centering */
+  cursor: pointer; /* Changes cursor to indicate it's clickable */
+  background: none; /* Removes default button styling */
+  border: none; /* Removes border */
+  padding: 0; /* Removes default padding */
+}
+
+.fop-cont .hlines {
+  font-size: 25px;
+  font-weight: 400;
+  text-align: left;
+  color: rgb(40, 47, 105);
+}
+
+.fop-cont .ema-war {
+  text-align: left;
+  width: 100% !important;
+  margin: 0;
+  color: rgb(93, 106, 183);
+  font-size: 17px;
+}
+
+.fop-cont .tc {
+  margin: 0;
+  margin-top: 20px;
+}
+
+.email-fop {
+  margin-top: 10px;
+}
+
 @media screen and (max-width: 500px) {
   .modal-content {
     width: 95%;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./LoginModal.css";
 import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff, Mail } from "lucide-react";
 
 import {
   auth,
@@ -21,16 +22,28 @@ import { getAuth } from "firebase/auth";
 function LoginModal({ onClose, onLoginSuccess }) {
   // State for email, password, and whether it's login or signup form
   const [email, setEmail] = useState("");
+  const [FpEmail, setFpEmail] = useState("");
   const [SupEmail, setSupEmail] = useState("");
   const [password, setPassword] = useState("");
   const [SupPassword, setSupPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true); // Toggle between login and signup
   // form
+  const [showFpPage, setIsShowFpPage] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [savedCredentials, setSavedCredentials] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [mobileNumber, setMobileNumber] = useState("");
   const navigate = useNavigate();
+  const [upShowPassword, setUpShowPassword] = useState(false);
+  const [inShowPassword, setInShowPassword] = useState(false);
+
+  const toggleInPasswordVisibility = () => {
+    setInShowPassword(!inShowPassword);
+  };
+
+  const toggleUpPasswordVisibility = () => {
+    setUpShowPassword(!upShowPassword);
+  };
 
   useEffect(() => {
     console.log("Auth is:", auth);
@@ -210,13 +223,15 @@ function LoginModal({ onClose, onLoginSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log("hi");
+
     // Validate input
     if (isLogin && (!email || !password)) {
       alert("Please fill in both fields.");
       return;
     }
 
-    if (!isLogin && (!SupEmail || !SupPassword)) {
+    if (!showFpPage && !isLogin && (!SupEmail || !SupPassword)) {
       alert("Please fill in both fields.");
       return;
     }
@@ -264,6 +279,55 @@ function LoginModal({ onClose, onLoginSuccess }) {
       );
     }
   };
+  const handleForgotPassword = async () => {
+    // Validate email
+    if (!FpEmail || !FpEmail.includes("@")) {
+      alert("Please enter a valid email address");
+      return;
+    }
+
+    try {
+      // Optional: Backend notification for password reset
+      const response = await axios.post(
+        "http://localhost:5000/auth/send-reset-email",
+        {
+          email: FpEmail,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Show success message
+      alert(
+        "Password reset link has been sent to your email. Please check your inbox."
+      );
+
+      // Reset the form and navigation state
+      setFpEmail("");
+      setIsShowFpPage(false);
+      setIsLogin(true);
+    } catch (error) {
+      // Handle Firebase and Axios errors
+      if (error.code === "auth/user-not-found") {
+        alert("No user found with this email address.");
+      } else if (error.code === "auth/invalid-email") {
+        alert("Invalid email address.");
+      } else if (error.code === "auth/too-many-requests") {
+        alert("Too many reset attempts. Please try again later.");
+      } else if (error.response) {
+        // Backend error handling
+        alert(
+          error.response.data.message || "Failed to send password reset link."
+        );
+      } else {
+        console.error("Forgot password error:", error);
+        alert("An unexpected error occurred. Please try again.");
+      }
+    }
+  };
 
   return (
     <div className="modal-overlay">
@@ -281,7 +345,10 @@ function LoginModal({ onClose, onLoginSuccess }) {
             />
             <div
               className="sup-btn"
-              onClick={() => setIsLogin(!isLogin)} // Toggle between login and signup
+              onClick={() => {
+                setIsLogin(!isLogin);
+                setIsShowFpPage(false);
+              }} // Toggle between login and signup
             >
               {isLogin ? (
                 <>
@@ -311,6 +378,41 @@ function LoginModal({ onClose, onLoginSuccess }) {
             </div>
           </div>
           <form onSubmit={handleSubmit}>
+            {showFpPage && (
+              <div className="fop-cont">
+                <h2 className="hlines">Forgot Your Password</h2>
+                <p className="ema-war">
+                  Please enter the email address you'd like your password reset
+                  information sent to
+                </p>
+
+                <div className="email-class email-fop">
+                  <input
+                    id="reset-email"
+                    type="email"
+                    placeholder="xyz@gmail.com"
+                    value={FpEmail}
+                    onChange={(e) => setFpEmail(e.target.value)}
+                    className="input w-full pl-10 py-2 border rounded"
+                    required
+                  />
+                  <Mail color="gray" size={23} className="mail-btn" />
+                </div>
+                <button
+                  className="login-submit"
+                  onClick={(e) => {
+                    e.preventDefault(); // Stops the default form submission
+                    handleForgotPassword();
+                  }}
+                >
+                  Request Reset Link
+                </button>
+                <div className="tc">
+                  I accept that I have read & understood your{" "}
+                  <span>Privacy Policy</span> and <span>T&Cs</span>.
+                </div>
+              </div>
+            )}
             {isLogin && (
               <div className="email-class">
                 <input
@@ -325,6 +427,7 @@ function LoginModal({ onClose, onLoginSuccess }) {
                   placeholder="Enter Your Email Address"
                   className="input"
                 />
+                <Mail color="gray" size={23} className="mail-btn" />
                 {showSuggestions && savedCredentials.length > 0 && (
                   <div className="suggestions-dropdown">
                     {savedCredentials.map((cred, index) => (
@@ -342,18 +445,21 @@ function LoginModal({ onClose, onLoginSuccess }) {
               </div>
             )}
 
-            {!isLogin && (
-              <input
-                type="email"
-                id="email"
-                value={SupEmail}
-                onChange={(e) => setSupEmail(e.target.value)} // Update state on input change
-                placeholder="Enter Your Email Address"
-                className="input"
-              />
+            {!showFpPage && !isLogin && (
+              <div className="email-sup-class">
+                <input
+                  type="email"
+                  id="email"
+                  value={SupEmail}
+                  onChange={(e) => setSupEmail(e.target.value)} // Update state on input change
+                  placeholder="Enter Your Email Address"
+                  className="input"
+                />
+                <Mail color="gray" size={23} className="mail-btn" />
+              </div>
             )}
 
-            {!isLogin && (
+            {!showFpPage && !isLogin && (
               <input
                 type="number"
                 id="number"
@@ -364,25 +470,51 @@ function LoginModal({ onClose, onLoginSuccess }) {
               />
             )}
             {isLogin && (
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)} // Update state on input change
-                placeholder="Enter Your Password"
-                className="input"
-              />
+              <div className="pw-container">
+                <input
+                  type={inShowPassword ? "text" : "password"}
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)} // Update state on input change
+                  placeholder="Enter Your Password"
+                  className="input"
+                />
+                <button
+                  type="button"
+                  onClick={toggleInPasswordVisibility}
+                  className="eye-btn"
+                >
+                  {inShowPassword ? (
+                    <EyeOff color="gray" size={25} />
+                  ) : (
+                    <Eye color="gray" size={25} />
+                  )}
+                </button>
+              </div>
             )}
 
-            {!isLogin && (
-              <input
-                type="password"
-                id="password"
-                value={SupPassword}
-                onChange={(e) => setSupPassword(e.target.value)} // Update state on input change
-                placeholder="Enter Your Password"
-                className="input"
-              />
+            {!showFpPage && !isLogin && (
+              <div className="pw-container">
+                <input
+                  type={upShowPassword ? "text" : "password"}
+                  id="password"
+                  value={SupPassword}
+                  onChange={(e) => setSupPassword(e.target.value)} // Update state on input change
+                  placeholder="Enter Your Password"
+                  className="input"
+                />
+                <button
+                  type="button"
+                  onClick={toggleUpPasswordVisibility}
+                  className="eye-btn"
+                >
+                  {upShowPassword ? (
+                    <EyeOff color="gray" size={25} />
+                  ) : (
+                    <Eye color="gray" size={25} />
+                  )}
+                </button>
+              </div>
             )}
 
             {isLogin && (
@@ -396,11 +528,19 @@ function LoginModal({ onClose, onLoginSuccess }) {
                   />
                   Remember Me
                 </div>
-                <div className="fp">Forgot Password?</div>
+                <div
+                  className="fp"
+                  onClick={() => {
+                    setIsLogin(!isLogin);
+                    setIsShowFpPage(!showFpPage);
+                  }}
+                >
+                  Forgot Password?
+                </div>
               </div>
             )}
 
-            {!isLogin && (
+            {!showFpPage && !isLogin && (
               <div className="terms-div">
                 <input type="checkbox" id="remember" name="remember" />
                 <p className="agree">
@@ -409,9 +549,11 @@ function LoginModal({ onClose, onLoginSuccess }) {
               </div>
             )}
 
-            <button type="submit" className="login-submit">
-              {isLogin ? "Login" : "Sign up"}
-            </button>
+            {!showFpPage && (
+              <button type="submit" className="login-submit">
+                {isLogin ? "Login" : "Sign up"}
+              </button>
+            )}
           </form>
 
           {isLogin && (
@@ -453,10 +595,12 @@ function LoginModal({ onClose, onLoginSuccess }) {
             </div>
           )}
 
-          <div className="tc">
-            I accept that I have read & understood your{" "}
-            <span>Privacy Policy</span> and <span>T&Cs</span>.
-          </div>
+          {!showFpPage && (
+            <div className="tc">
+              I accept that I have read & understood your{" "}
+              <span>Privacy Policy</span> and <span>T&Cs</span>.
+            </div>
+          )}
 
           {/* Toggle between login and signup */}
         </div>

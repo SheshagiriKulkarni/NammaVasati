@@ -12,11 +12,23 @@ const path = require("path");
 const router = express.Router();
 const SECRET_KEY = "your_secret_key"; // Use a strong key and keep it safe
 
+const resetTokens = new Map();
+
 // Register Endpoint
 // Signup Endpoint
 
 const mongoURI = process.env.MONGO_URI || "mongodb://localhost:27017/pgAds";
 const conn = mongoose.connection;
+
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  service: "gmail", // or your preferred email service
+  auth: {
+    user: "kulkarnishashank962@gmail.com", // your email
+    pass: "lhrurqqhljtumyqb", // your email password or app-specific password
+  },
+});
 
 // Init gfs
 let gfs;
@@ -72,6 +84,88 @@ router.post("/uploadProfileImage", upload.single("image"), async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error uploading profile image" });
+  }
+});
+
+router.post("/reset-password", async (req, res) => {
+  try {
+    const { email, newPassword } = req.body;
+    console.log("Received password update request:", req.body);
+    // Validate input
+    if (!email || !newPassword) {
+      return res
+        .status(400)
+        .json({ message: "Email and new password are required." });
+    }
+
+    // Find user in DB
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: "User not found." });
+
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword.toString(), 10);
+
+    console.log("Hashed password:", hashedPassword);
+
+    // Update password in DB
+    user.password = hashedPassword;
+    await user.save();
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Password update error:", error.message);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+router.post("/send-reset-email", async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    // If no user found with this email
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "No account associated with this email address exists.",
+      });
+    }
+    // Generate a unique reset token
+    const resetToken = crypto.randomBytes(32).toString("hex");
+
+    // Store the token with the email (with expiration)
+    resetTokens.set(resetToken, {
+      email,
+      expires: Date.now() + 3600000, // 1 hour expiration
+    });
+
+    // Create your custom reset link
+    const resetLink = `http://localhost:5173/reset-password?token=${resetToken}&email=${encodeURIComponent(
+      email
+    )}`;
+
+    // Email template
+    const mailOptions = {
+      from: "kulkarnishashank962@gmail.com", // your sender email
+      to: email,
+      subject: "Password Reset Request",
+      html: `
+        <h2>Password Reset Request</h2>
+        <p>Click the link below to reset your password:</p>
+        <a href="${resetLink}">Reset Password</a>
+        <p>This link will expire in 1 hour.</p>
+        <p>If you didn't request this, please ignore this email.</p>
+      `,
+    };
+
+    // Send the email
+    await transporter.sendMail(mailOptions);
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Error sending reset email:", error);
+    res.status(500).json({ success: false, message: error.message });
   }
 });
 

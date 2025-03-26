@@ -11,6 +11,7 @@ import Wishlist from "./components/Wishlist";
 import Onmap from "./components/Onmap";
 import Edit from "./components/Edit";
 import ChatList from "./components/ChatList";
+import ResetPasswordPage from "./components/ResetPasswordPage";
 import "./App.css";
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path="/onmap" element={<Onmap />} />
         <Route path="/edit-ad/:adId" element={<Edit />} />
         <Route path="/chatList" element={<ChatList />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
       </Routes>
     </Router>
   );
