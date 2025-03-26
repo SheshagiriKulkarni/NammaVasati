@@ -296,6 +296,7 @@
 .pg-details .name-and-price {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .pg-details button:hover {

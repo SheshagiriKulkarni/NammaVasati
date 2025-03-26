@@ -405,7 +405,7 @@ function LandingPage() {
                       <h3>{ad.pgName}</h3>
 
                       <p>
-                        <strong>₹{ad.price}/month</strong>
+                        <strong>₹{ad.price}/mo*</strong>
                       </p>
                     </div>
                     <p>Gender: {ad.gender}</p>
