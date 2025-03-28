@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { useNavigate } from "react-router-dom";
 import "./SearchedPage.css";
 import { FaMale, FaFemale, FaVenusMars, FaBorderStyle } from "react-icons/fa";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
@@ -81,10 +80,10 @@ const GenderTag = ({ gender }) => {
         fontWeight: "bold",
         width: "120px",
         gap: "5px",
-        ...styles, // Apply dynamic styles
+        ...styles,
       }}
     >
-      {styles.icon} {/* Display icon */}
+      {styles.icon}
       <span>{gender}</span>
     </div>
   );
@@ -92,72 +91,114 @@ const GenderTag = ({ gender }) => {
 
 function SearchedPage() {
   const { search } = useParams();
+  const navigate = useNavigate();
   const [pgs, setPgs] = useState([]);
   const [mapCenter, setMapCenter] = useState([12.9716, 77.5946]);
-  const navigate = useNavigate();
   const [selectedLocation, setSelectedLocation] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [query, setQuery] = useState("");
-  const [sortOption, setSortOption] = useState("priceHighToLow"); // Default sort by price high to low
 
-  const [previousFilters, setPreviousFilters] = useState([]);
-
+  // Improved filter state management
   const [filters, setFilters] = useState({
     locality: "",
-    gender: "",
+    gender: [],
     budget: "",
+    sortOption: "priceHighToLow",
   });
-  const [dropdownOpen, setDropdownOpen] = useState({
+
+  // Dropdown state management
+  const [dropdowns, setDropdowns] = useState({
     locality: false,
     gender: false,
     budget: false,
-    sortby: false,
+    sortBy: false,
   });
 
-  const sortPGs = (pgs) => {
-    switch (sortOption) {
-      case "priceHighToLow":
-        return [...pgs].sort((a, b) => b.price - a.price); // Sort by price high to low
-      case "priceLowToHigh":
-        return [...pgs].sort((a, b) => a.price - b.price); // Sort by price low to high
-      case "pgNameAsc":
-        return [...pgs].sort((a, b) => a.pgName.localeCompare(b.pgName)); // Sort by PG name ascending
-      case "pgNameDesc":
-        return [...pgs].sort((a, b) => b.pgName.localeCompare(a.pgName)); // Sort by PG name descending
-      default:
-        return pgs;
-    }
-  };
+  // Temporary state for filter dropdowns
+  const [tempFilters, setTempFilters] = useState({
+    locality: filters.locality,
+    gender: [...filters.gender],
+    budget: filters.budget,
+  });
 
-  const toggleDropdown = (key) => {
-    setDropdownOpen((prev) => {
-      // Close all other dropdowns and open the clicked one
-      const updatedDropdowns = Object.keys(prev).reduce((acc, curr) => {
-        acc[curr] = curr === key ? !prev[curr] : false;
+  // Toggle dropdown
+  const toggleDropdown = (dropdown) => {
+    setDropdowns((prev) => {
+      const newState = Object.keys(prev).reduce((acc, key) => {
+        acc[key] = key === dropdown ? !prev[key] : false;
         return acc;
       }, {});
-      return updatedDropdowns;
+      return newState;
     });
   };
 
-  const handleFilterChange = (key, value) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
+  // Handle gender filter selection
+  const handleGenderFilter = (gender) => {
+    setTempFilters((prev) => {
+      const currentGenders = prev.gender;
+      const newGenders = currentGenders.includes(gender)
+        ? currentGenders.filter((g) => g !== gender)
+        : [...currentGenders, gender];
+
+      return { ...prev, gender: newGenders };
+    });
   };
 
+  // Save filters
+  const saveFilters = () => {
+    setFilters((prev) => ({
+      ...prev,
+      locality: tempFilters.locality,
+      gender: tempFilters.gender,
+      budget: tempFilters.budget,
+    }));
+
+    // Close all dropdowns
+    setDropdowns({
+      locality: false,
+      gender: false,
+      budget: false,
+      sortBy: false,
+    });
+  };
+
+  // Remove a specific filter
+  const removeFilter = (type, value) => {
+    setFilters((prev) => {
+      if (type === "locality") {
+        return { ...prev, locality: "" };
+      }
+      if (type === "gender") {
+        return {
+          ...prev,
+          gender: prev.gender.filter((g) => g !== value),
+        };
+      }
+      if (type === "budget") {
+        return { ...prev, budget: "" };
+      }
+      return prev;
+    });
+  };
+
+  // Fetch and filter PGs
   const fetchPGs = async () => {
     try {
       const response = await axios.get(
         `http://localhost:5000/api/advertise/pgs?search=${search}`
       );
+
       let filteredPGs = response.data;
 
-      if (filters.locality.trim()) {
-        // Trim any extra spaces
+      // Apply locality filter
+      if (filters.locality) {
         filteredPGs = filteredPGs.filter((pg) =>
           pg.locationName.toLowerCase().includes(filters.locality.toLowerCase())
         );
       }
+
+      // Apply gender filter
       if (filters.gender.length > 0) {
         filteredPGs = filteredPGs.filter((pg) =>
           filters.gender.some(
@@ -165,68 +206,52 @@ function SearchedPage() {
           )
         );
       }
+
+      // Apply budget filter
       if (filters.budget) {
         filteredPGs = filteredPGs.filter(
           (pg) => pg.price <= parseInt(filters.budget, 10)
         );
       }
 
-      const sortedPGs = sortPGs(filteredPGs); // Sort the filtered PGs
-      setPgs(sortedPGs.map((pg) => ({ ...pg, currentImageIndex: 0 })));
+      // Apply sorting
+      switch (filters.sortOption) {
+        case "priceHighToLow":
+          filteredPGs.sort((a, b) => b.price - a.price);
+          break;
+        case "priceLowToHigh":
+          filteredPGs.sort((a, b) => a.price - b.price);
+          break;
+        case "pgNameAsc":
+          filteredPGs.sort((a, b) => a.pgName.localeCompare(b.pgName));
+          break;
+        case "pgNameDesc":
+          filteredPGs.sort((a, b) => b.pgName.localeCompare(a.pgName));
+          break;
+        default:
+          break;
+      }
+
+      setPgs(filteredPGs.map((pg) => ({ ...pg, currentImageIndex: 0 })));
     } catch (error) {
       console.error("Error fetching PGs:", error);
     }
   };
 
-  const selectedFilters = [
-    ...previousFilters.filter(
-      (prev) =>
-        !(
-          (prev.type === "locality" && prev.label === filters.locality) ||
-          (prev.type === "budget" && prev.label === `₹${filters.budget}`) ||
-          (prev.type === "gender" &&
-            Array.isArray(filters.gender) &&
-            filters.gender.includes(prev.label))
-        )
-    ), // Keep only those not in current filters
-
-    filters.locality ? { label: filters.locality, type: "locality" } : null,
-    ...(Array.isArray(filters.gender)
-      ? filters.gender.map((gender) => ({ label: gender, type: "gender" }))
-      : []),
-    filters.budget ? { label: `₹${filters.budget}`, type: "budget" } : null,
-  ].filter(Boolean);
-
-  useEffect(() => {
-    fetchPGs();
-    setPreviousFilters(selectedFilters); // Store filter history
-    console.log(filters);
-  }, [search, filters, sortOption]); // Re-run fetchPGs when filters change
-
-  useEffect(() => {
-    console.log(previousFilters);
-  }, [previousFilters]);
-
-  // Function to handle next image
+  // Existing methods from previous implementation
   const nextImage = (pgId) => {
     setPgs((prevPgs) =>
       prevPgs.map((pg) =>
         pg._id === pgId
           ? {
               ...pg,
-              currentImageIndex: (pg.currentImageIndex + 1) % pg.images.length, // Loop back to first image
+              currentImageIndex: (pg.currentImageIndex + 1) % pg.images.length,
             }
           : pg
       )
     );
   };
 
-  const handleAdClick = (adId) => {
-    console.log(adId);
-    navigate(`/addetails/${adId}`); // Navigates to the ad's page
-  };
-
-  // Function to handle previous image
   const prevImage = (pgId) => {
     setPgs((prevPgs) =>
       prevPgs.map((pg) =>
@@ -235,13 +260,18 @@ function SearchedPage() {
               ...pg,
               currentImageIndex:
                 (pg.currentImageIndex - 1 + pg.images.length) %
-                pg.images.length, // Loop to last image
+                pg.images.length,
             }
           : pg
       )
     );
   };
 
+  const handleAdClick = (adId) => {
+    navigate(`/addetails/${adId}`);
+  };
+
+  // Existing search and location methods
   const fetchLocations = async (input) => {
     if (!input) {
       setSuggestions([]);
@@ -249,7 +279,6 @@ function SearchedPage() {
     }
 
     try {
-      // Fetch PG name suggestions
       const pgResponse = await axios.get(
         `http://localhost:5000/api/advertise/pgs?search=${input}`
       );
@@ -260,7 +289,6 @@ function SearchedPage() {
         name: pg.pgName,
       }));
 
-      // Fetch location suggestions from OpenStreetMap
       const locationResponse = await axios.get(
         `https://nominatim.openstreetmap.org/search`,
         {
@@ -279,7 +307,6 @@ function SearchedPage() {
         name: item.display_name,
       }));
 
-      // Combine PG and location suggestions
       setSuggestions([...pgSuggestions, ...locationSuggestions]);
       setShowDropdown(true);
     } catch (error) {
@@ -306,7 +333,6 @@ function SearchedPage() {
     if (suggestion.type === "pg") {
       navigate(`/addetails/${suggestion.id}`);
     } else {
-      // Navigate to searched results page
       navigate(`/searched/${suggestion.name}`);
     }
   };
@@ -320,7 +346,6 @@ function SearchedPage() {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const { latitude, longitude } = position.coords;
-        console.log("Latitude:", latitude, "Longitude:", longitude);
 
         try {
           const response = await axios.get(
@@ -336,8 +361,8 @@ function SearchedPage() {
 
           if (response.data && response.data.display_name) {
             const locationName = response.data.display_name;
-            setQuery(locationName); // Set location in input
-            setSelectedLocation(locationName); // Update selected location
+            setQuery(locationName);
+            setSelectedLocation(locationName);
           } else {
             alert("Unable to fetch location details.");
           }
@@ -359,79 +384,10 @@ function SearchedPage() {
     }
   };
 
-  const [rotations, setRotations] = useState({
-    locality: false,
-    gender: false,
-    budget: false,
-    mfilters: false,
-    sortby: false,
-  });
-
-  const toggleRotation = (key) => {
-    setRotations((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
-
-  const [tempFilters, setTempFilters] = useState({ ...filters, gender: [] });
-
-  const handleTempFilterChange = (gender) => {
-    setTempFilters((prev) => {
-      const newGenderSelection = prev.gender.includes(gender)
-        ? prev.gender.filter((g) => g !== gender) // Remove if already selected
-        : [...prev.gender, gender]; // Add if not selected
-
-      return { ...prev, gender: newGenderSelection };
-    });
-  };
-
-  const [tempLocality, setTempLocality] = useState(filters.locality);
-  const [tempBudget, setTempBudget] = useState(filters.budget);
-
-  const handleTempLocalityChange = (locality) => {
-    setTempLocality(locality);
-  };
-
-  const handleTempBudgetChange = (budget) => {
-    setTempBudget(budget);
-  };
-
-  // Apply temporary filters when clicking "Save"
-  const handleSaveFilters = () => {
-    setFilters({
-      ...tempFilters,
-      locality: tempLocality,
-      budget: tempBudget,
-    });
-    setDropdownOpen({ ...dropdownOpen, locality: false, budget: false });
-    console.log("Hi");
-  };
-
-  const removeFilter = (type, label) => {
-    setFilters((prevFilters) => {
-      let updatedFilters = { ...prevFilters };
-
-      if (type === "locality") {
-        delete updatedFilters.locality;
-      } else if (type === "budget") {
-        delete updatedFilters.budget;
-      } else if (type === "gender") {
-        updatedFilters.gender = Array.isArray(prevFilters.gender)
-          ? prevFilters.gender.filter((gender) => gender !== label)
-          : [];
-      }
-
-      return updatedFilters;
-    });
-
-    // console.log(filters);
-
-    setPreviousFilters(
-      Object.entries(filters).flatMap(([key, value]) =>
-        Array.isArray(value)
-          ? value.map((v) => ({ type: key, label: v }))
-          : [{ type: key, label: value }]
-      )
-    );
-  };
+  // Fetch PGs when filters change
+  useEffect(() => {
+    fetchPGs();
+  }, [search, filters]);
 
   return (
     <div>
@@ -493,176 +449,146 @@ function SearchedPage() {
             </div>
           )}
         </div>
-        <h2>Filters :</h2>
-        <div className="filter">
-          <button onClick={() => toggleDropdown("locality")}>
-            Locality
-            <img
-              src="https://st4.depositphotos.com/14953852/28391/v/450/depositphotos_283913062-stock-illustration-arrow-down-icon-vector-illustration.jpg"
-              className={dropdownOpen.locality ? "rotated" : ""}
-            />
-          </button>
 
-          {dropdownOpen.locality && (
-            <div className="dropdown-menu locality-dropdown-menu">
-              <input
-                type="text"
-                placeholder="Enter locality"
-                value={tempLocality}
-                onChange={(e) => handleTempLocalityChange(e.target.value)}
-              />
-
-              <div className="save-btn">
-                <button
-                  onClick={() => {
-                    console.log(tempLocality);
-                    handleSaveFilters();
-                    setDropdownOpen({ ...dropdownOpen, locality: false });
-                  }}
-                >
-                  Save
-                </button>
+        {/* Filters Container */}
+        <div className="filters-container">
+          {/* Locality Filter */}
+          Filters:
+          <div className="filter-group">
+            <button
+              onClick={() => toggleDropdown("locality")}
+              className={`filter-button ${dropdowns.locality ? "active" : ""}`}
+            >
+              Locality{" "}
+              {filters.locality && <span className="filter-indicator">•</span>}
+            </button>
+            {dropdowns.locality && (
+              <div className="filter-dropdown">
+                <input
+                  type="text"
+                  placeholder="Enter locality"
+                  value={tempFilters.locality}
+                  onChange={(e) =>
+                    setTempFilters((prev) => ({
+                      ...prev,
+                      locality: e.target.value,
+                    }))
+                  }
+                />
+                <button onClick={saveFilters}>Save</button>
               </div>
-            </div>
-          )}
-        </div>
-
-        <div className="filter">
-          <button onClick={() => toggleDropdown("gender")}>
-            Gender
-            <img
-              src="https://st4.depositphotos.com/14953852/28391/v/450/depositphotos_283913062-stock-illustration-arrow-down-icon-vector-illustration.jpg"
-              className={dropdownOpen.gender ? "rotated" : ""}
-            />
-          </button>
-          {dropdownOpen.gender && (
-            <div className="dropdown-menu gender-dropdown-menu">
-              <div className="btns">
+            )}
+          </div>
+          {/* Gender Filter */}
+          <div className="filter-group">
+            <button
+              onClick={() => toggleDropdown("gender")}
+              className={`filter-button ${dropdowns.gender ? "active" : ""}`}
+            >
+              Gender{" "}
+              {filters.gender.length > 0 && (
+                <span className="filter-indicator">•</span>
+              )}
+            </button>
+            {dropdowns.gender && (
+              <div className="filter-dropdown">
                 {["Male", "Female", "Unisex"].map((gender) => (
-                  <button
-                    key={gender}
-                    className={
-                      tempFilters.gender.includes(gender) ? "selected" : ""
-                    }
-                    onClick={() => handleTempFilterChange(gender)}
-                  >
+                  <label key={gender} className="checkbox-label">
+                    <input
+                      type="checkbox"
+                      checked={tempFilters.gender.includes(gender)}
+                      onChange={() => handleGenderFilter(gender)}
+                    />
                     {gender}
+                  </label>
+                ))}
+                <button onClick={saveFilters}>Save</button>
+              </div>
+            )}
+          </div>
+          {/* Budget Filter */}
+          <div className="filter-group">
+            <button
+              onClick={() => toggleDropdown("budget")}
+              className={`filter-button ${dropdowns.budget ? "active" : ""}`}
+            >
+              Budget{" "}
+              {filters.budget && <span className="filter-indicator">•</span>}
+            </button>
+            {dropdowns.budget && (
+              <div className="filter-dropdown">
+                <input
+                  type="number"
+                  placeholder="Max budget"
+                  value={tempFilters.budget}
+                  onChange={(e) =>
+                    setTempFilters((prev) => ({
+                      ...prev,
+                      budget: e.target.value,
+                    }))
+                  }
+                />
+                <button onClick={saveFilters}>Save</button>
+              </div>
+            )}
+          </div>
+          {/* Sort By Filter */}
+          <div className="filter-group">
+            <button
+              onClick={() => toggleDropdown("sortBy")}
+              className={`filter-button ${dropdowns.sortBy ? "active" : ""}`}
+            >
+              Sort By
+            </button>
+            {dropdowns.sortBy && (
+              <div className="filter-dropdown">
+                {[
+                  { value: "priceHighToLow", label: "Price: High to Low" },
+                  { value: "priceLowToHigh", label: "Price: Low to High" },
+                  { value: "pgNameAsc", label: "PG Name: A-Z" },
+                  { value: "pgNameDesc", label: "PG Name: Z-A" },
+                ].map((option) => (
+                  <button
+                    key={option.value}
+                    onClick={() => {
+                      setFilters((prev) => ({
+                        ...prev,
+                        sortOption: option.value,
+                      }));
+                      setDropdowns((prev) => ({ ...prev, sortBy: false }));
+                    }}
+                    className={
+                      filters.sortOption === option.value ? "selected" : ""
+                    }
+                  >
+                    {option.label}
                   </button>
                 ))}
               </div>
-              <hr />
-              <div className="save-btn">
-                <button
-                  onClick={() => {
-                    setFilters(tempFilters); // Apply changes only when saving
-                    setDropdownOpen({ ...dropdownOpen, gender: false });
-                  }}
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
-        <div className="filter">
-          <button onClick={() => toggleDropdown("budget")}>
-            Budget
-            <img
-              src="https://st4.depositphotos.com/14953852/28391/v/450/depositphotos_283913062-stock-illustration-arrow-down-icon-vector-illustration.jpg"
-              className={dropdownOpen.budget ? "rotated" : ""}
-            />
-          </button>
-          {dropdownOpen.budget && (
-            <div className="dropdown-menu locality-dropdown-menu">
-              <input
-                type="number"
-                placeholder="Enter max budget"
-                value={tempBudget}
-                onChange={(e) => handleTempBudgetChange(e.target.value)}
-              />
-              <div className="save-btn">
-                <button
-                  onClick={() => {
-                    handleSaveFilters();
-                    setDropdownOpen({ ...dropdownOpen, budget: false });
-                  }}
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-
-        <div className="vertical-line"></div>
-
-        <button
-          onClick={() => toggleRotation("mfilters")}
-          className="mofilters"
-        >
-          More Filters
-          <img
-            src="https://st4.depositphotos.com/14953852/28391/v/450/depositphotos_283913062-stock-illustration-arrow-down-icon-vector-illustration.jpg"
-            alt="Icon"
-            className={rotations.mfilters ? "rotated" : ""}
-          />
-        </button>
-
-        <div className="filter">
-          <button onClick={() => toggleDropdown("sortby")}>
-            Sort By
-            <img
-              src="https://st4.depositphotos.com/14953852/28391/v/450/depositphotos_283913062-stock-illustration-arrow-down-icon-vector-illustration.jpg"
-              alt="Icon"
-              className={dropdownOpen.sortby ? "rotated" : ""}
-            />
-          </button>
-          {dropdownOpen.sortby && (
-            <div className="dropdown-menu budget-dropdown-menu">
-              <button
-                onClick={() => setSortOption("priceHighToLow")}
-                className={sortOption === "priceHighToLow" ? "selected" : ""}
-              >
-                Price High to Low
-              </button>
-              <button
-                onClick={() => setSortOption("priceLowToHigh")}
-                className={sortOption === "priceLowToHigh" ? "selected" : ""}
-              >
-                Price Low to High
-              </button>
-              <button
-                onClick={() => setSortOption("pgNameAsc")}
-                className={sortOption === "pgNameAsc" ? "selected" : ""}
-              >
-                PG Name Ascending
-              </button>
-              <button
-                onClick={() => setSortOption("pgNameDesc")}
-                className={sortOption === "pgNameDesc" ? "selected" : ""}
-              >
-                PG Name Descending
-              </button>
-            </div>
-          )}
-        </div>
+        {/* Active Filters Display */}
       </div>
 
-      <div className="sel-filters">
-        {selectedFilters.length > 0 && (
-          <div className="selected-filters">
-            {selectedFilters.map((filter, index) => (
-              <span key={index} className="filter-tag">
-                {filter.label}
-                <button
-                  className="rm-btn"
-                  onClick={() => removeFilter(filter.type, filter.label)}
-                >
-                  ✖
-                </button>
-              </span>
-            ))}
+      <div className="active-filters">
+        {filters.locality && (
+          <div className="active-filter">
+            {filters.locality}
+            <button onClick={() => removeFilter("locality")}>×</button>
+          </div>
+        )}
+        {filters.gender.map((gender) => (
+          <div key={gender} className="active-filter">
+            {gender}
+            <button onClick={() => removeFilter("gender", gender)}>×</button>
+          </div>
+        ))}
+        {filters.budget && (
+          <div className="active-filter">
+            Up to ₹{filters.budget}
+            <button onClick={() => removeFilter("budget")}>×</button>
           </div>
         )}
       </div>
@@ -675,9 +601,10 @@ function SearchedPage() {
               {pgs.map((ad) => (
                 <div
                   className="searched-pg"
+                  key={ad._id}
                   onMouseEnter={() => setMapCenter([ad.latitude, ad.longitude])}
                 >
-                  <div key={ad._id} className="image-content">
+                  <div className="image-content">
                     {ad.images && ad.images.length > 0 ? (
                       <>
                         <button
@@ -724,8 +651,9 @@ function SearchedPage() {
                     <div className="rowtwo">
                       <p className="occupancy">
                         <img
-                          class="occupancy-icon"
+                          className="occupancy-icon"
                           src="https://res.cloudinary.com/stanza-living/image/upload/v1700809285/Website%20v5/Icons/tabler_bed.png"
+                          alt="Occupancy"
                         />
                         {ad.occupancy}
                       </p>
