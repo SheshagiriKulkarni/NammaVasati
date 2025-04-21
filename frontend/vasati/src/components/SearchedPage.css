@@ -334,6 +334,12 @@
 @media screen and (max-width: 600px) {
   .filters-row {
     flex-direction: column;
+    gap: 10px;
+    box-sizing: border-box;
+  }
+
+  .filter-button {
+    padding: 4px 8px;
   }
 
   .filters-row .search-input {
@@ -342,5 +348,11 @@
 
   .filters-container {
     width: 90%;
+    gap: 5px;
+  }
+
+  .heading {
+    width: 100%;
+    text-align: center;
   }
 }
